@@ -11,7 +11,7 @@ export default function ResultadosAntigos() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`${import.meta.env.VITE_API_URL || '/api/legado/resultados`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/legado/resultados`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {

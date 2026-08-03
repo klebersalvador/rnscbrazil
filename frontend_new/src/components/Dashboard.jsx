@@ -26,14 +26,14 @@ export default function Dashboard() {
         const headers = { 'Authorization': `Bearer ${token}` };
 
         // Fetch stats
-        const resStats = await fetch(`${import.meta.env.VITE_API_URL || '/api/dashboard-stats`, { headers });
+        const resStats = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/dashboard-stats`, { headers });
         if (resStats.ok) {
           const dataStats = await resStats.json();
           setStats(dataStats);
         }
 
         // Fetch events
-        const resEvents = await fetch(`${import.meta.env.VITE_API_URL || '/api/eventos`, { headers });
+        const resEvents = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/eventos`, { headers });
         if (resEvents.ok) {
           const dataEvents = await resEvents.json();
           setEventos(dataEvents);

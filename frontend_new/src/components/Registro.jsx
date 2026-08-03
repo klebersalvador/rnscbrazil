@@ -85,12 +85,12 @@ export default function Registro() {
         senha: formData.senha
       };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api/usuarios/cadastro`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/usuarios/cadastro`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        ,
+        },
         body: JSON.stringify(payload)
       });
 
