@@ -46,7 +46,7 @@ export default function Dashboard() {
     };
 
     fetchData();
-  , []);
+  }, []);
 
   const user = JSON.parse(localStorage.getItem('rsnc_user') || '{}');
   const today = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });

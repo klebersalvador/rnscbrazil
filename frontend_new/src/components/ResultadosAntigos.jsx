@@ -26,7 +26,7 @@ export default function ResultadosAntigos() {
       }
     };
     fetchData();
-  , []);
+  }, []);
 
   if (loading) return <div className="loading">Carregando acervo...</div>;
 
