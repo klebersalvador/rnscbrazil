@@ -19,7 +19,7 @@ export default function Login({ onLoginSuccess }) {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        ,
+        },
         body: JSON.stringify({ login, senha })
       });
 
