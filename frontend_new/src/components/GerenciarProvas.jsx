@@ -42,17 +42,17 @@ export default function GerenciarProvas() {
       const headers = { 'Authorization': `Bearer ${token}` };
 
       // Buscar Evento
-      const resEvento = await fetch(`/api/eventos/${id}`, { headers });
+      const resEvento = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/eventos/${id}`, { headers });
       const dataEvento = await resEvento.json();
       setEvento(dataEvento);
 
       // Buscar Provas do evento
-      const resProvas = await fetch(`/api/provas?id_evento=${id}`, { headers });
+      const resProvas = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas?id_evento=${id}`, { headers });
       const dataProvas = await resProvas.json();
       setProvas(dataProvas);
 
       // Buscar Divisões disponíveis
-      const resDivisoes = await fetch(`/api/divisoes?limit=1000`, { headers });
+      const resDivisoes = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/divisoes?limit=1000`, { headers });
       const dataDivisoes = await resDivisoes.json();
       setDivisoes(dataDivisoes);
 
@@ -72,7 +72,7 @@ export default function GerenciarProvas() {
         id_evento: id
       };
 
-      const response = await fetch('/api/provas', {
+      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/provas'}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -115,7 +115,7 @@ export default function GerenciarProvas() {
         id_evento: id
       };
 
-      const response = await fetch(`/api/provas/${provaEditando.id_prova}`, {
+      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${provaEditando.id_prova}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -170,7 +170,7 @@ export default function GerenciarProvas() {
     setSavingFases(true);
     try {
       const token = localStorage.getItem('rsnc_token');
-      const response = await fetch(`/api/provas/${provaConfigFases.id_prova}`, {
+      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${provaConfigFases.id_prova}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -204,7 +204,7 @@ export default function GerenciarProvas() {
     if (!itemToDelete) return;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/provas/${itemToDelete}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${itemToDelete}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

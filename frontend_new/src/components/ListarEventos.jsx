@@ -18,7 +18,7 @@ export default function ListarEventos() {
     const fetchEventos = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch('/api/eventos?limit=1000', {
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/eventos?limit=1000'}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -49,7 +49,7 @@ export default function ListarEventos() {
     const id = itemToDelete;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/eventos/${id}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/eventos/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

@@ -29,7 +29,7 @@ export default function CriarCampeonato() {
       const fetchCampeonato = async () => {
         try {
           const token = localStorage.getItem('rsnc_token');
-          const res = await fetch(`/api/campeonatos/${id}`, {
+          const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/campeonatos/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
@@ -58,7 +58,7 @@ export default function CriarCampeonato() {
     const fetchPontuacoes = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch('/api/pontuacoes', { headers: { 'Authorization': `Bearer ${token}` } });
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/pontuacoes'}`, { headers: { 'Authorization': `Bearer ${token}` } });
         if (res.ok) setPontuacoes(await res.json());
       } catch (err) { console.error('Erro ao buscar tabelas de pontuação'); }
     };

@@ -85,7 +85,7 @@ export default function Registro() {
         senha: formData.senha
       };
 
-      const response = await fetch('/api/usuarios/cadastro', {
+      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/usuarios/cadastro'}`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

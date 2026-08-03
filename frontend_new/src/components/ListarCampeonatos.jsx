@@ -21,7 +21,7 @@ export default function ListarCampeonatos() {
     const fetchCampeonatos = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch('/api/campeonatos?limit=1000', {
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/campeonatos?limit=1000'}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -63,7 +63,7 @@ export default function ListarCampeonatos() {
     const id = itemToDelete;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/campeonatos/${id}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/campeonatos/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

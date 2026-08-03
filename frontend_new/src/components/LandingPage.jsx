@@ -14,7 +14,7 @@ export default function LandingPage() {
 
   const fetchEventos = async () => {
     try {
-      const response = await fetch('/api/eventos');
+      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/eventos'}`);
       if (response.ok) {
         const data = await response.json();
         // Pegar apenas os 3 mais recentes

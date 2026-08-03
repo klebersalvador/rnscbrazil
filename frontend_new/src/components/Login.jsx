@@ -14,7 +14,7 @@ export default function Login({ onLoginSuccess }) {
     setError('');
 
     try {
-      const response = await fetch('/api/usuarios/login', {
+      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/usuarios/login'}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

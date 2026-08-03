@@ -22,7 +22,7 @@ export default function ListarCavalos() {
     const fetchCavalos = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch('/api/cavalos?limit=10000', {
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/cavalos?limit=10000'}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -64,7 +64,7 @@ export default function ListarCavalos() {
     const id = itemToDelete;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/cavalos/${id}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/cavalos/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

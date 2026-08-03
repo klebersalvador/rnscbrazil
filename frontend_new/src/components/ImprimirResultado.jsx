@@ -15,11 +15,11 @@ export default function ImprimirResultado() {
         const headers = { 'Authorization': `Bearer ${token}` };
 
         // Buscar Prova
-        const resProva = await fetch(`/api/provas/${id}`, { headers });
+        const resProva = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${id}`, { headers });
         if (resProva.ok) setProva(await resProva.json());
 
         // Buscar Inscricoes
-        const resInsc = await fetch(`/api/inscricoes/prova/${id}`, { headers });
+        const resInsc = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/inscricoes/prova/${id}`, { headers });
         if (resInsc.ok) {
           const dataInsc = await resInsc.json();
           // Filtrar apenas as classificadas e ordenar

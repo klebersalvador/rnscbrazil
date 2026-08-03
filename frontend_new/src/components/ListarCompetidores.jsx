@@ -22,7 +22,7 @@ export default function ListarCompetidores() {
     const fetchCompetidores = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch('/api/usuarios?limit=10000', {
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/usuarios?limit=10000'}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -66,7 +66,7 @@ export default function ListarCompetidores() {
     const id = itemToDelete;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/usuarios/excluir/${id}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/usuarios/excluir/${id}`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });

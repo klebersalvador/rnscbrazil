@@ -26,14 +26,14 @@ export default function Dashboard() {
         const headers = { 'Authorization': `Bearer ${token}` };
 
         // Fetch stats
-        const resStats = await fetch('/api/dashboard-stats', { headers });
+        const resStats = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/dashboard-stats'}`, { headers });
         if (resStats.ok) {
           const dataStats = await resStats.json();
           setStats(dataStats);
         }
 
         // Fetch events
-        const resEvents = await fetch('/api/eventos', { headers });
+        const resEvents = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/eventos'}`, { headers });
         if (resEvents.ok) {
           const dataEvents = await resEvents.json();
           setEventos(dataEvents);

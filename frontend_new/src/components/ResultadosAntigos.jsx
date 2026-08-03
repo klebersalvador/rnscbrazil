@@ -11,7 +11,7 @@ export default function ResultadosAntigos() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch('/api/legado/resultados', {
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/legado/resultados'}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -76,7 +76,7 @@ export default function ResultadosAntigos() {
                     <td>{new Date(r.data_criacao).toLocaleDateString('pt-BR')}</td>
                     <td>
                       <a 
-                        href={`http://localhost:8000/uploads/${r.arquivo_exibicao}`} 
+                        href={`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/uploads/${r.arquivo_exibicao}`} 
                         target="_blank" rel="noreferrer"
                         className="btn btn-secondary"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
@@ -96,7 +96,7 @@ export default function ResultadosAntigos() {
                     <td>{new Date(r.data_criacao).toLocaleDateString('pt-BR')}</td>
                     <td>
                       <a 
-                        href={`http://localhost:8000/uploads/${r.arquivo_exibicao}`} 
+                        href={`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/uploads/${r.arquivo_exibicao}`} 
                         target="_blank" rel="noreferrer"
                         className="btn btn-secondary"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}

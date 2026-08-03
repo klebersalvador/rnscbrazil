@@ -30,7 +30,7 @@ export default function CriarDivisao() {
     const fetchRegras = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch('/api/regras', { headers: { 'Authorization': `Bearer ${token}` } });
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/regras'}`, { headers: { 'Authorization': `Bearer ${token}` } });
         if (res.ok) setTodasRegras(await res.json());
       } catch (err) { console.error('Erro ao buscar regras', err); }
     };
@@ -40,7 +40,7 @@ export default function CriarDivisao() {
       const fetchDivisao = async () => {
         try {
           const token = localStorage.getItem('rsnc_token');
-          const res = await fetch(`/api/divisoes/${id}`, {
+          const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/divisoes/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {

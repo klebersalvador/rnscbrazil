@@ -28,7 +28,7 @@ export default function GerenciarResultados() {
   const fetchProva = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/provas/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setProvaConfig(await res.json());
     } catch (err) { console.error('Erro ao buscar prova'); }
   };
@@ -47,7 +47,7 @@ export default function GerenciarResultados() {
     setLoadingGeral(true);
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/provas/${id}/classificacao-geral`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${id}/classificacao-geral`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) {
         const data = await res.json();
         setClassificacaoTipo(data.tipo);
@@ -81,7 +81,7 @@ export default function GerenciarResultados() {
   const fetchInscricoes = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/inscricoes/prova/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/inscricoes/prova/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) {
         const data = await res.json();
         // Filtrar apenas as que já têm ordem de entrada (já sorteadas)
@@ -135,7 +135,7 @@ export default function GerenciarResultados() {
     setSavingId(id_inscricao);
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/inscricoes/${id_inscricao}/resultado`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/inscricoes/${id_inscricao}/resultado`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -167,7 +167,7 @@ export default function GerenciarResultados() {
   const handleExportXML = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/provas/${id}/exportar-xml`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${id}/exportar-xml`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {

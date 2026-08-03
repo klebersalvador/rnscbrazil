@@ -65,7 +65,7 @@ export default function Configuracoes() {
   const fetchRegras = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch('/api/regras', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/regras'}`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setRegras(await res.json());
     } catch (err) { console.error(err); }
   };
@@ -73,7 +73,7 @@ export default function Configuracoes() {
   const fetchPontuacoes = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch('/api/pontuacoes', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/pontuacoes'}`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setPontuacoes(await res.json());
     } catch (err) { console.error(err); }
   };
@@ -81,7 +81,7 @@ export default function Configuracoes() {
   const fetchRacas = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch('/api/racas', {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/racas'}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -99,8 +99,8 @@ export default function Configuracoes() {
       setLoading(true);
       const token = localStorage.getItem('rsnc_token');
       const [resEquipe, resPerfis] = await Promise.all([
-        fetch('/api/usuarios/equipe', { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch('/api/perfis', { headers: { 'Authorization': `Bearer ${token}` } })
+        fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/usuarios/equipe'}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/perfis'}`, { headers: { 'Authorization': `Bearer ${token}` } })
       ]);
       if (resEquipe.ok && resPerfis.ok) {
         setEquipe(await resEquipe.json());
@@ -242,7 +242,7 @@ export default function Configuracoes() {
         ativo: 1
       };
 
-      const res = await fetch('/api/pontuacoes', {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/pontuacoes'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload)
@@ -263,7 +263,7 @@ export default function Configuracoes() {
   const executeDeleteRaca = async (id) => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/racas/${id}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/racas/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -331,7 +331,7 @@ export default function Configuracoes() {
     if (window.confirm('Excluir esta regra? Ela será removida de todas as divisões.')) {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`/api/regras/${id}`, {
+        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/regras/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -357,7 +357,7 @@ export default function Configuracoes() {
   const executeRemoveStaff = async (id_usuario) => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/usuarios/${id_usuario}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/usuarios/${id_usuario}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ id_perfil: 3 })
@@ -381,7 +381,7 @@ export default function Configuracoes() {
     setIsSearchingStaff(true);
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/usuarios?q=${encodeURIComponent(staffSearchText)}&limit=50`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/usuarios?q=${encodeURIComponent(staffSearchText)}&limit=50`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -405,7 +405,7 @@ export default function Configuracoes() {
 
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`/api/usuarios/${selectedStaffUser.id_usuario}`, {
+      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/usuarios/${selectedStaffUser.id_usuario}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ id_perfil: selectedStaffRole })
