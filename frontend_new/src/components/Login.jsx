@@ -75,7 +75,7 @@ export default function Login({ onLoginSuccess }) {
           </div>
 
           <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Autenticando...' : 'Entrar no Sistema
+            {loading ? 'Autenticando...' : 'Entrar no Sistema'}
           </button>
         </form>
       </div>

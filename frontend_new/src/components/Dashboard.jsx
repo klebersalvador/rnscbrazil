@@ -124,8 +124,8 @@ export default function Dashboard() {
                     <td>{new Date(e.data_inicial).toLocaleDateString('pt-BR')}</td>
                     <td>{e.localizacao}</td>
                     <td>
-                      <span className={e.finalizado ? 'badge badge-closed' : 'badge badge-open>
-                        {e.finalizado ? 'Encerrado' : 'Aberto
+                      <span className={e.finalizado ? 'badge badge-closed' : 'badge badge-open'}>
+                        {e.finalizado ? 'Encerrado' : 'Aberto'}
                       </span>
                     </td>
                     <td style={{ display: 'flex', gap: '10px' }}>
