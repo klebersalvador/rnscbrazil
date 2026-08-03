@@ -51,7 +51,7 @@ function App() {
       <Toaster position="top-right" toastOptions={{ 
         style: { background: '#12141a', color: '#fff', border: '1px solid rgba(212, 175, 55, 0.3)' } 
       }} />
-      <Router>
+      <Router basename="/rnscbrazil/frontend_new/dist">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/registro" element={<Registro />} />
