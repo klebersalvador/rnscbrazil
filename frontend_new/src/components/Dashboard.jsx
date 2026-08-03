@@ -56,7 +56,7 @@ export default function Dashboard() {
   return (
     <div className="analytics-dashboard">
       <div className="dashboard-header">
-        <h1>Bem-vindo de volta, {user.nome?.split(' ')[0] || 'Usuário!</h1>
+        <h1>Bem-vindo de volta, {user.nome?.split(' ')[0] || 'Usuário'}!</h1>
         <p>Painel RSNC Brazil - {today}</p>
       </div>
 
