@@ -1,0 +1,208 @@
+.analytics-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dashboard-header h1 {
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.dashboard-header p {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* KPI Cards Row */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.kpi-card {
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-fast);
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+}
+
+.kpi-icon {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  color: #a0aab2; /* Default muted */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kpi-card.upcoming .kpi-icon {
+  color: #4facfe;
+  background: rgba(79, 172, 254, 0.1);
+}
+
+.kpi-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.kpi-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kpi-card.upcoming .kpi-value {
+  color: #4facfe;
+}
+
+.kpi-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.kpi-progress-bar .progress {
+  height: 100%;
+  background: #4facfe;
+}
+
+/* Content Grid Row */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.panel-header h3 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Modern Table */
+.recent-table-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.modern-table th {
+  text-align: left;
+  padding: 1rem 0.5rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modern-table td {
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.9rem;
+}
+
+/* Efeito zebrado para as linhas da tabela */
+.modern-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.modern-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.modern-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-open {
+  background: rgba(42, 157, 143, 0.15);
+  color: var(--color-success);
+}
+
+.badge-closed {
+  background: rgba(230, 57, 70, 0.15);
+  color: var(--color-danger);
+}
+
+.link-action {
+  text-decoration: none;
+  font-weight: 500;
+}
+.link-action:hover {
+  text-decoration: underline;
+}
+
+/* Chart */
+.chart-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-wrapper {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem;
+  background: var(--glass-bg);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--glass-border);
+}
