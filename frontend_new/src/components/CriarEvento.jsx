@@ -25,7 +25,7 @@ export default function CriarEvento() {
     const fetchCampeonatos = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/campeonatos?limit=100'}`, { headers: { 'Authorization': `Bearer ${token}` }});
+        const res = await fetch(`${'/api/campeonatos?limit=100'}`, { headers: { 'Authorization': `Bearer ${token}` }});
         if (res.ok) setCampeonatos(await res.json());
       } catch (err) {
         console.error('Erro ao carregar campeonatos:', err);
@@ -37,7 +37,7 @@ export default function CriarEvento() {
       const fetchEvento = async () => {
         try {
           const token = localStorage.getItem('rsnc_token');
-          const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/eventos/${id}`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/eventos/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (response.ok) {

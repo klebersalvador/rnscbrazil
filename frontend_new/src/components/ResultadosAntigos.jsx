@@ -11,7 +11,7 @@ export default function ResultadosAntigos() {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/legado/resultados'}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || '/api/legado/resultados`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -26,7 +26,7 @@ export default function ResultadosAntigos() {
       }
     };
     fetchData();
-  }, []);
+  , []);
 
   if (loading) return <div className="loading">Carregando acervo...</div>;
 
@@ -41,13 +41,13 @@ export default function ResultadosAntigos() {
 
       <div className="tabs" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
         <button 
-          className={`btn ${activeTab === 'eventos' ? 'btn-primary' : 'btn-secondary'}`}
+          className={`btn ${activeTab === 'eventos' ? 'btn-primary' : 'btn-secondary`}
           onClick={() => setActiveTab('eventos')}
         >
           Resultados de Eventos ({data.eventos.length})
         </button>
         <button 
-          className={`btn ${activeTab === 'campeonatos' ? 'btn-primary' : 'btn-secondary'}`}
+          className={`btn ${activeTab === 'campeonatos' ? 'btn-primary' : 'btn-secondary`}
           onClick={() => setActiveTab('campeonatos')}
         >
           Resultados de Campeonatos ({data.campeonatos.length})
@@ -76,7 +76,7 @@ export default function ResultadosAntigos() {
                     <td>{new Date(r.data_criacao).toLocaleDateString('pt-BR')}</td>
                     <td>
                       <a 
-                        href={`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/uploads/${r.arquivo_exibicao}`} 
+                        href={`/uploads/${r.arquivo_exibicao}`} 
                         target="_blank" rel="noreferrer"
                         className="btn btn-secondary"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
@@ -96,7 +96,7 @@ export default function ResultadosAntigos() {
                     <td>{new Date(r.data_criacao).toLocaleDateString('pt-BR')}</td>
                     <td>
                       <a 
-                        href={`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/uploads/${r.arquivo_exibicao}`} 
+                        href={`/uploads/${r.arquivo_exibicao}`} 
                         target="_blank" rel="noreferrer"
                         className="btn btn-secondary"
                         style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}

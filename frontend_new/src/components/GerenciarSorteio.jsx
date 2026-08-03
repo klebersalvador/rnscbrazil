@@ -19,7 +19,7 @@ export default function GerenciarSorteio() {
   const fetchInscricoes = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/inscricoes/prova/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/inscricoes/prova/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -41,7 +41,7 @@ export default function GerenciarSorteio() {
     setIsModalLoading(true);
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas/${id}/sorteio/gerar`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/provas/${id}/sorteio/gerar`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,

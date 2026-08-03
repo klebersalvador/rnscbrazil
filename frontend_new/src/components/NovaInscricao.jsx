@@ -72,16 +72,16 @@ export default function NovaInscricao() {
         const headers = { 'Authorization': `Bearer ${token}` };
 
         // Buscar cavalos
-        const resCavalos = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/cavalos?limit=10000'}`, { headers });
+        const resCavalos = await fetch(`${'/api/cavalos?limit=10000'}`, { headers });
         if (resCavalos.ok) setCavalos(await resCavalos.json());
 
         // Carregar Competidores
-        const resCompetidores = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/usuarios?limit=10000'}`, { headers });
+        const resCompetidores = await fetch(`${'/api/usuarios?limit=10000'}`, { headers });
         if (resCompetidores.ok) setCompetidores(await resCompetidores.json());
 
         // Buscar provas do evento
         if (eventoId) {
-          const resProvas = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/provas?id_evento=${eventoId}`, { headers });
+          const resProvas = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/provas?id_evento=${eventoId}`, { headers });
           if (resProvas.ok) setProvas(await resProvas.json());
         }
       } catch (err) {
@@ -217,7 +217,7 @@ export default function NovaInscricao() {
         });
       }
 
-      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/inscricoes-verifica-prova'}`, {
+      const response = await fetch(`${'/api/inscricoes-verifica-prova'}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

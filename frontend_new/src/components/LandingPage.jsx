@@ -14,7 +14,7 @@ export default function LandingPage() {
 
   const fetchEventos = async () => {
     try {
-      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/eventos'}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/eventos`);
       if (response.ok) {
         const data = await response.json();
         // Pegar apenas os 3 mais recentes
@@ -89,13 +89,13 @@ export default function LandingPage() {
               <div key={evento.id_evento} className="evento-card glass-panel hover-lift">
                 <div className="evento-card-image">
                   <div className="evento-date">
-                    {new Date(evento.data_inicio).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+                    {evento.data_inicial ? new Date(evento.data_inicial).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) : 'Sem data'}
                   </div>
                 </div>
                 <div className="evento-card-content">
                   <h3>{evento.titulo}</h3>
                   <div className="evento-info">
-                    <span className="info-item"><MapPin size={16} /> {evento.local || 'Local não informado'}</span>
+                    <span className="info-item"><MapPin size={16} /> {evento.localizacao || 'Local não informado'}</span>
                     <span className="info-item"><Users size={16} /> {evento.organizador?.nome || 'Organização'}</span>
                   </div>
                   <div className="evento-card-footer">

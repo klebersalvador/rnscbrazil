@@ -21,7 +21,7 @@ export default function ListarDivisoes() {
     const fetchDivisoes = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/divisoes?limit=1000'}`, {
+        const res = await fetch(`${'/api/divisoes?limit=1000'}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -62,7 +62,7 @@ export default function ListarDivisoes() {
     const id = itemToDelete;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/divisoes/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/divisoes/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

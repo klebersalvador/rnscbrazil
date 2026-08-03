@@ -26,14 +26,14 @@ export default function Dashboard() {
         const headers = { 'Authorization': `Bearer ${token}` };
 
         // Fetch stats
-        const resStats = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/dashboard-stats'}`, { headers });
+        const resStats = await fetch(`${import.meta.env.VITE_API_URL || '/api/dashboard-stats`, { headers });
         if (resStats.ok) {
           const dataStats = await resStats.json();
           setStats(dataStats);
         }
 
         // Fetch events
-        const resEvents = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/eventos'}`, { headers });
+        const resEvents = await fetch(`${import.meta.env.VITE_API_URL || '/api/eventos`, { headers });
         if (resEvents.ok) {
           const dataEvents = await resEvents.json();
           setEventos(dataEvents);
@@ -46,7 +46,7 @@ export default function Dashboard() {
     };
 
     fetchData();
-  }, []);
+  , []);
 
   const user = JSON.parse(localStorage.getItem('rsnc_user') || '{}');
   const today = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -56,7 +56,7 @@ export default function Dashboard() {
   return (
     <div className="analytics-dashboard">
       <div className="dashboard-header">
-        <h1>Bem-vindo de volta, {user.nome?.split(' ')[0] || 'Usuário'}!</h1>
+        <h1>Bem-vindo de volta, {user.nome?.split(' ')[0] || 'Usuário!</h1>
         <p>Painel RSNC Brazil - {today}</p>
       </div>
 
@@ -124,8 +124,8 @@ export default function Dashboard() {
                     <td>{new Date(e.data_inicial).toLocaleDateString('pt-BR')}</td>
                     <td>{e.localizacao}</td>
                     <td>
-                      <span className={e.finalizado ? 'badge badge-closed' : 'badge badge-open'}>
-                        {e.finalizado ? 'Encerrado' : 'Aberto'}
+                      <span className={e.finalizado ? 'badge badge-closed' : 'badge badge-open>
+                        {e.finalizado ? 'Encerrado' : 'Aberto
                       </span>
                     </td>
                     <td style={{ display: 'flex', gap: '10px' }}>
@@ -149,7 +149,7 @@ export default function Dashboard() {
                   </tr>
                 ))}
                 {eventos.length === 0 && (
-                  <tr><td colSpan="5" style={{textAlign: 'center', padding: '2rem'}}>Nenhum evento encontrado</td></tr>
+                  <tr><td colSpan="5" style={{textAlign: 'center', padding: '2rem}>Nenhum evento encontrado</td></tr>
                 )}
               </tbody>
             </table>

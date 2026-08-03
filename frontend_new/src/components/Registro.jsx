@@ -85,12 +85,12 @@ export default function Registro() {
         senha: formData.senha
       };
 
-      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/usuarios/cadastro'}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api/usuarios/cadastro`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        },
+        ,
         body: JSON.stringify(payload)
       });
 
@@ -155,7 +155,7 @@ export default function Registro() {
                 name="nome"
                 value={formData.nome}
                 onChange={handleChange}
-                className={`input-field ${errors.nome ? 'input-error' : ''}`}
+                className={`input-field ${errors.nome ? 'input-error' : '`}
                 style={{ width: '100%', paddingLeft: '2.5rem' }}
                 placeholder="Seu nome"
               />
@@ -173,7 +173,7 @@ export default function Registro() {
                 value={formData.cpf}
                 onChange={handleChange}
                 maxLength="14"
-                className={`input-field ${errors.cpf ? 'input-error' : ''}`}
+                className={`input-field ${errors.cpf ? 'input-error' : '`}
                 style={{ width: '100%', paddingLeft: '2.5rem' }}
                 placeholder="000.000.000-00"
               />
@@ -190,7 +190,7 @@ export default function Registro() {
                 name="login"
                 value={formData.login}
                 onChange={handleChange}
-                className={`input-field ${errors.login ? 'input-error' : ''}`}
+                className={`input-field ${errors.login ? 'input-error' : '`}
                 style={{ width: '100%', paddingLeft: '2.5rem' }}
                 placeholder="Escolha um login"
               />
@@ -208,7 +208,7 @@ export default function Registro() {
                   name="senha"
                   value={formData.senha}
                   onChange={handleChange}
-                  className={`input-field ${errors.senha ? 'input-error' : ''}`}
+                  className={`input-field ${errors.senha ? 'input-error' : '`}
                   style={{ width: '100%', paddingLeft: '2.5rem' }}
                   placeholder="******"
                 />
@@ -225,7 +225,7 @@ export default function Registro() {
                   name="confirmarSenha"
                   value={formData.confirmarSenha}
                   onChange={handleChange}
-                  className={`input-field ${errors.confirmarSenha ? 'input-error' : ''}`}
+                  className={`input-field ${errors.confirmarSenha ? 'input-error' : '`}
                   style={{ width: '100%', paddingLeft: '2.5rem' }}
                   placeholder="******"
                 />
@@ -250,7 +250,7 @@ export default function Registro() {
         
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
           <p style={{ color: 'var(--color-text-muted)' }}>
-            Já possui uma conta?{' '}
+            Já possui uma conta?{' 
             <span 
               onClick={() => navigate('/login')} 
               style={{ color: 'var(--color-primary)', cursor: 'pointer', fontWeight: '500' }}

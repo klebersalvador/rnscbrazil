@@ -16,7 +16,7 @@ export default function ListarInscricoes() {
   const fetchInscricoes = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/inscricoes/prova/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/inscricoes/prova/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -43,7 +43,7 @@ export default function ListarInscricoes() {
     if (!itemToDelete) return;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/inscricoes/${itemToDelete}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/inscricoes/${itemToDelete}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

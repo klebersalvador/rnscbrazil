@@ -14,12 +14,12 @@ export default function Login({ onLoginSuccess }) {
     setError('');
 
     try {
-      const response = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public${'/api/usuarios/login'}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || '/api/usuarios/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        },
+        ,
         body: JSON.stringify({ login, senha })
       });
 
@@ -75,7 +75,7 @@ export default function Login({ onLoginSuccess }) {
           </div>
 
           <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Autenticando...' : 'Entrar no Sistema'}
+            {loading ? 'Autenticando...' : 'Entrar no Sistema
           </button>
         </form>
       </div>

@@ -14,7 +14,7 @@ export default function RankingCampeonato() {
     const fetchRanking = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/campeonatos/${id}/ranking`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/campeonatos/${id}/ranking`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {

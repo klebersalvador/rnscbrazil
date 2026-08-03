@@ -59,7 +59,7 @@ export default function CriarCompetidor() {
       const fetchCompetidor = async () => {
         try {
           const token = localStorage.getItem('rsnc_token');
-          const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/usuarios/${id}`, {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/usuarios/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {

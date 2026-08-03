@@ -28358,7 +28358,7 @@ var environment = {
 };
 // export const environment = {
 // production: false,
-//api_url: 'https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/api' 
+//api_url: 'http://localhost:1337/api' 
 //};
 
 

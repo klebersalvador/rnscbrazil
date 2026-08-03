@@ -22,7 +22,7 @@ export default function CadastrarCavalo() {
       const fetchCavalo = async () => {
         try {
           const token = localStorage.getItem('rsnc_token');
-          const res = await fetch(`https://torneiodesinuca.com.br/rnscbrazil/backend_php/public/api/cavalos/${id}`, {
+          const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cavalos/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
