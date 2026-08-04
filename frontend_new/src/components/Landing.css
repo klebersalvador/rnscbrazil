@@ -167,7 +167,7 @@
 }
 
 .evento-card-image {
-  height: 120px;
+  height: 60px;
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(26, 29, 36, 1) 100%);
   position: relative;
   display: flex;
