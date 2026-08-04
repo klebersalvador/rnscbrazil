@@ -210,7 +210,7 @@ export default function Registro() {
 
   return (
     <div className="login-container" style={{ alignItems: 'flex-start', paddingTop: '10vh' }}>
-      <div className="login-card glass-panel animate-fade-in" style={{ maxWidth: '800px', width: '100%', margin: '0 auto', minHeight: '650px', display: 'flex', flexDirection: 'column' }}>
+      <div className="login-card glass-panel animate-fade-in" style={{ maxWidth: '800px', width: '100%', margin: '0 auto', minHeight: '650px', display: 'flex', flexDirection: 'column', padding: '2.5rem 3rem' }}>
         <div className="login-header">
           <div className="login-logo">
             <Trophy className="text-gold" size={40} />
