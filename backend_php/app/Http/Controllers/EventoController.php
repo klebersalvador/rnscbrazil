@@ -54,8 +54,16 @@ class EventoController extends Controller
         $data['id_organizador'] = $request->user()->id_usuario ?? 1;
         $data['website'] = $data['website'] ?? '';
         $data['imagem_exibicao'] = $data['imagem_exibicao'] ?? 'default.jpg';
-        $data['data_inicio_inscricoes'] = $data['data_inicio_inscricoes'] ?? now();
-        $data['data_fim_inscricoes'] = $data['data_fim_inscricoes'] ?? now()->addDays(7);
+        $data['data_inicio_inscricoes'] = $data['data_inicio_inscricoes'] ?? now()->format('Y-m-d H:i:s');
+        $data['data_fim_inscricoes'] = $data['data_fim_inscricoes'] ?? now()->addDays(7)->format('Y-m-d H:i:s');
+        
+        if (!empty($data['data_inicial'])) {
+            $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
+        }
+        if (!empty($data['data_final'])) {
+            $data['data_final'] = date('Y-m-d H:i:s', strtotime($data['data_final']));
+        }
+        
         $data['finalizado'] = 0;
 
         $evento = Evento::create($data);
@@ -64,8 +72,17 @@ class EventoController extends Controller
 
     public function altera(Request $request, $id)
     {
+        $data = $request->all();
+        
+        if (!empty($data['data_inicial'])) {
+            $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
+        }
+        if (!empty($data['data_final'])) {
+            $data['data_final'] = date('Y-m-d H:i:s', strtotime($data['data_final']));
+        }
+
         $evento = Evento::findOrFail($id);
-        $evento->update($request->all());
+        $evento->update($data);
         return response()->json($evento);
     }
 
