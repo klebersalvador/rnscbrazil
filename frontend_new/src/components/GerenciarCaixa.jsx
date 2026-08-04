@@ -20,7 +20,7 @@ export default function GerenciarCaixa() {
     const fetchEventos = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`${'/api/eventos'}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/eventos`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -81,7 +81,7 @@ export default function GerenciarCaixa() {
     if (selectedIdsToPay.length === 0) return;
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`${'/api/caixa/pagar'}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/caixa/pagar`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

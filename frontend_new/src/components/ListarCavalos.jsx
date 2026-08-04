@@ -22,7 +22,7 @@ export default function ListarCavalos() {
     const fetchCavalos = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`${'/api/cavalos?limit=10000'}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cavalos?limit=10000`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {

@@ -65,7 +65,7 @@ export default function Configuracoes() {
   const fetchRegras = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`${'/api/regras'}`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/regras`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setRegras(await res.json());
     } catch (err) { console.error(err); }
   };
@@ -73,7 +73,7 @@ export default function Configuracoes() {
   const fetchPontuacoes = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`${'/api/pontuacoes'}`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/pontuacoes`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setPontuacoes(await res.json());
     } catch (err) { console.error(err); }
   };
@@ -81,7 +81,7 @@ export default function Configuracoes() {
   const fetchRacas = async () => {
     try {
       const token = localStorage.getItem('rsnc_token');
-      const res = await fetch(`${'/api/racas'}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/racas`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -99,8 +99,8 @@ export default function Configuracoes() {
       setLoading(true);
       const token = localStorage.getItem('rsnc_token');
       const [resEquipe, resPerfis] = await Promise.all([
-        fetch(`${'/api/usuarios/equipe'}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${'/api/perfis'}`, { headers: { 'Authorization': `Bearer ${token}` } })
+        fetch(`${import.meta.env.VITE_API_URL || ''}/api/usuarios/equipe`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${import.meta.env.VITE_API_URL || ''}/api/perfis`, { headers: { 'Authorization': `Bearer ${token}` } })
       ]);
       if (resEquipe.ok && resPerfis.ok) {
         setEquipe(await resEquipe.json());
@@ -242,7 +242,7 @@ export default function Configuracoes() {
         ativo: 1
       };
 
-      const res = await fetch(`${'/api/pontuacoes'}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/pontuacoes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload)

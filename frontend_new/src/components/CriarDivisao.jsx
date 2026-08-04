@@ -30,7 +30,7 @@ export default function CriarDivisao() {
     const fetchRegras = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`${'/api/regras'}`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/regras`, { headers: { 'Authorization': `Bearer ${token}` } });
         if (res.ok) setTodasRegras(await res.json());
       } catch (err) { console.error('Erro ao buscar regras', err); }
     };

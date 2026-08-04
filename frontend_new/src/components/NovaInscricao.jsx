@@ -72,11 +72,11 @@ export default function NovaInscricao() {
         const headers = { 'Authorization': `Bearer ${token}` };
 
         // Buscar cavalos
-        const resCavalos = await fetch(`${'/api/cavalos?limit=10000'}`, { headers });
+        const resCavalos = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/cavalos?limit=10000`, { headers });
         if (resCavalos.ok) setCavalos(await resCavalos.json());
 
         // Carregar Competidores
-        const resCompetidores = await fetch(`${'/api/usuarios?limit=10000'}`, { headers });
+        const resCompetidores = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/usuarios?limit=10000`, { headers });
         if (resCompetidores.ok) setCompetidores(await resCompetidores.json());
 
         // Buscar provas do evento
@@ -217,7 +217,7 @@ export default function NovaInscricao() {
         });
       }
 
-      const response = await fetch(`${'/api/inscricoes-verifica-prova'}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/inscricoes-verifica-prova`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

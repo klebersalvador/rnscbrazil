@@ -22,7 +22,7 @@ export default function ListarCompetidores() {
     const fetchCompetidores = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`${'/api/usuarios?limit=10000'}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/usuarios?limit=10000`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {

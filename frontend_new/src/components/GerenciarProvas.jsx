@@ -72,7 +72,7 @@ export default function GerenciarProvas() {
         id_evento: id
       };
 
-      const response = await fetch(`${'/api/provas'}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/provas`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -58,7 +58,7 @@ export default function CriarCampeonato() {
     const fetchPontuacoes = async () => {
       try {
         const token = localStorage.getItem('rsnc_token');
-        const res = await fetch(`${'/api/pontuacoes'}`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const res = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/pontuacoes`, { headers: { 'Authorization': `Bearer ${token}` } });
         if (res.ok) setPontuacoes(await res.json());
       } catch (err) { console.error('Erro ao buscar tabelas de pontuação'); }
     };
