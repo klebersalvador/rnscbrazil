@@ -129,7 +129,7 @@ export default function Registro() {
       <div className="glow-orb orb-1"></div>
       <div className="glow-orb orb-2"></div>
 
-      <div className="login-panel glass-panel animate-fade-in" style={{ maxWidth: '500px', width: '90%', padding: '40px 50px', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
+      <div className="login-panel glass-panel animate-fade-in" style={{ maxWidth: '500px', width: '90%', padding: '20px 30px', boxShadow: '0 15px 50px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.5)' }}>
         
         <button 
           onClick={() => navigate('/')} 
