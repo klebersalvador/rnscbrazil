@@ -41,13 +41,13 @@ export default function ResultadosAntigos() {
 
       <div className="tabs" style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
         <button 
-          className={`btn ${activeTab === 'eventos' ? 'btn-primary' : 'btn-secondary`}
+          className={`btn ${activeTab === 'eventos' ? 'btn-primary' : 'btn-secondary'}`}
           onClick={() => setActiveTab('eventos')}
         >
           Resultados de Eventos ({data.eventos.length})
         </button>
         <button 
-          className={`btn ${activeTab === 'campeonatos' ? 'btn-primary' : 'btn-secondary`}
+          className={`btn ${activeTab === 'campeonatos' ? 'btn-primary' : 'btn-secondary'}`}
           onClick={() => setActiveTab('campeonatos')}
         >
           Resultados de Campeonatos ({data.campeonatos.length})
