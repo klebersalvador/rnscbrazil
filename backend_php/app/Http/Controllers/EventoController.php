@@ -49,55 +49,65 @@ class EventoController extends Controller
 
     public function insere(Request $request)
     {
-        $data = $request->all();
-        // Set default values for required non-nullable fields
-        $data['id_organizador'] = $request->user()->id_usuario ?? 1;
-        $data['website'] = $data['website'] ?? '';
-        $data['imagem_exibicao'] = $data['imagem_exibicao'] ?? 'default.jpg';
-        $data['data_inicio_inscricoes'] = $data['data_inicio_inscricoes'] ?? now()->format('Y-m-d H:i:s');
-        $data['data_fim_inscricoes'] = $data['data_fim_inscricoes'] ?? now()->addDays(7)->format('Y-m-d H:i:s');
-        
-        $data['titulo'] = $data['titulo'] ?? 'Sem título';
-        $data['descricao'] = $data['descricao'] ?? '';
-        $data['localizacao'] = $data['localizacao'] ?? '';
-        
-        if (!empty($data['data_inicial'])) {
-            $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
-        }
-        if (!empty($data['data_final'])) {
-            $data['data_final'] = date('Y-m-d H:i:s', strtotime($data['data_final']));
-        }
-        
-        $data['finalizado'] = 0;
+        try {
+            $data = $request->all();
+            // Set default values for required non-nullable fields
+            $data['id_organizador'] = $request->user()->id_usuario ?? 1;
+            $data['website'] = $data['website'] ?? '';
+            $data['imagem_exibicao'] = $data['imagem_exibicao'] ?? 'default.jpg';
+            $data['data_inicio_inscricoes'] = $data['data_inicio_inscricoes'] ?? now()->format('Y-m-d H:i:s');
+            $data['data_fim_inscricoes'] = $data['data_fim_inscricoes'] ?? now()->addDays(7)->format('Y-m-d H:i:s');
+            
+            $data['titulo'] = $data['titulo'] ?? 'Sem título';
+            $data['descricao'] = $data['descricao'] ?? '';
+            $data['localizacao'] = $data['localizacao'] ?? '';
+            
+            if (!empty($data['data_inicial'])) {
+                $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
+            }
+            if (!empty($data['data_final'])) {
+                $data['data_final'] = date('Y-m-d H:i:s', strtotime($data['data_final']));
+            }
+            
+            $data['finalizado'] = 0;
 
-        $evento = Evento::create($data);
-        return response()->json($evento, 201);
+            $evento = Evento::create($data);
+            return response()->json($evento, 201);
+        } catch (\Exception $e) {
+            file_put_contents(public_path('ultimo_erro_evento.txt'), date('Y-m-d H:i:s') . " - ERRO INSERE: " . $e->getMessage() . "\nDados: " . json_encode($request->all()));
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function altera(Request $request, $id)
     {
-        $data = $request->all();
-        
-        if (array_key_exists('titulo', $data)) {
-            $data['titulo'] = $data['titulo'] ?? 'Sem título';
-        }
-        if (array_key_exists('descricao', $data)) {
-            $data['descricao'] = $data['descricao'] ?? '';
-        }
-        if (array_key_exists('localizacao', $data)) {
-            $data['localizacao'] = $data['localizacao'] ?? '';
-        }
-        
-        if (!empty($data['data_inicial'])) {
-            $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
-        }
-        if (!empty($data['data_final'])) {
-            $data['data_final'] = date('Y-m-d H:i:s', strtotime($data['data_final']));
-        }
+        try {
+            $data = $request->all();
+            
+            if (array_key_exists('titulo', $data)) {
+                $data['titulo'] = $data['titulo'] ?? 'Sem título';
+            }
+            if (array_key_exists('descricao', $data)) {
+                $data['descricao'] = $data['descricao'] ?? '';
+            }
+            if (array_key_exists('localizacao', $data)) {
+                $data['localizacao'] = $data['localizacao'] ?? '';
+            }
+            
+            if (!empty($data['data_inicial'])) {
+                $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
+            }
+            if (!empty($data['data_final'])) {
+                $data['data_final'] = date('Y-m-d H:i:s', strtotime($data['data_final']));
+            }
 
-        $evento = Evento::findOrFail($id);
-        $evento->update($data);
-        return response()->json($evento);
+            $evento = Evento::findOrFail($id);
+            $evento->update($data);
+            return response()->json($evento);
+        } catch (\Exception $e) {
+            file_put_contents(public_path('ultimo_erro_evento.txt'), date('Y-m-d H:i:s') . " - ERRO ALTERA: " . $e->getMessage() . "\nDados: " . json_encode($request->all()));
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function deleta($id)
