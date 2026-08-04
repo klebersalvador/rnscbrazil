@@ -1,91 +1,178 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Lock, FileText, ArrowLeft, Loader2, Save } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { UserPlus, Save, ArrowLeft, User, MapPin, Key, Award, Trophy } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import QuestionarioHandicap from './QuestionarioHandicap';
 
 export default function Registro() {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    nome: '',
-    cpf: '',
-    login: '',
-    senha: '',
-    confirmarSenha: ''
-  });
-
-  const [errors, setErrors] = useState({});
-
-  const mascaraCpf = (value) => {
-    return value
-      .replace(/\D/g, '')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
-      .replace(/(-\d{2})\d+?$/, '$1');
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'cpf') {
-      setFormData({ ...formData, [name]: mascaraCpf(value) });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-    
-    // Limpar erro ao digitar
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: '' });
-    }
-  };
-
-  const validarCPF = (cpfStr) => {
-    const strCPF = cpfStr.replace(/\D/g, '');
-    if (strCPF.length !== 11) return false;
-    if (/^(\d)\1+$/.test(strCPF)) return false; // Verifica CPFs repetidos como 11111111111
-    
-    let soma = 0;
-    let resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(strCPF.substring(9, 10))) return false;
-    
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(strCPF.substring(10, 11))) return false;
-    
+  const validarCPF = (cpf) => {
+    cpf = cpf.replace(/[^\d]+/g, '');
+    if (cpf === '') return false;
+    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    let add = 0;
+    for (let i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+    let rev = 11 - (add % 11);
+    if (rev === 10 || rev === 11) rev = 0;
+    if (rev !== parseInt(cpf.charAt(9))) return false;
+    add = 0;
+    for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+    rev = 11 - (add % 11);
+    if (rev === 10 || rev === 11) rev = 0;
+    if (rev !== parseInt(cpf.charAt(10))) return false;
     return true;
   };
 
-  const validarFormulario = () => {
-    const novosErros = {};
-    if (!formData.nome.trim()) novosErros.nome = 'Nome é obrigatório';
-    if (!formData.cpf.trim() || !validarCPF(formData.cpf)) novosErros.cpf = 'CPF inválido';
-    if (!formData.login.trim()) novosErros.login = 'Login/Usuário é obrigatório';
-    if (!formData.senha) novosErros.senha = 'Senha é obrigatória';
-    if (formData.senha !== formData.confirmarSenha) novosErros.confirmarSenha = 'As senhas não coincidem';
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('pessoais');
+  const [errors, setErrors] = useState({});
+  const [nivelamentoDisplay, setNivelamentoDisplay] = useState('');
+
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    cpf: '',
+    rg: '',
+    data_nascimento: '',
+    telefone: '',
+    sexo: 'M',
+    handicap: 0,
+    cep: '',
+    estado: '',
+    cidade: '',
+    bairro: '',
+    logradouro: '',
+    numero: '',
+    login: '',
+    senha: '',
+    confirmarSenha: '',
+    categoria_competidor: ''
+  });
+
+  const handleChange = (e) => {
+    let { name, value, type, checked } = e.target;
     
-    setErrors(novosErros);
-    return Object.keys(novosErros).length === 0;
+    if (name === 'cpf') {
+      value = value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d)/, '$1.$2');
+      value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    }
+    
+    if (name === 'telefone') {
+      value = value.replace(/\D/g, '');
+      if (value.length > 11) value = value.substring(0, 11);
+      if (value.length > 2) value = `(${value.substring(0, 2)}) ${value.substring(2)}`;
+      if (value.length > 9) value = `${value.substring(0, 10)}-${value.substring(10)}`;
+    }
+
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
+    }));
+    
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: false }));
+    }
+  };
+
+  const handleWizardComplete = (nivel, categoria, displayStr) => {
+    setFormData(prev => ({
+      ...prev,
+      handicap: nivel,
+      categoria_competidor: categoria
+    }));
+    setNivelamentoDisplay(displayStr);
+  };
+
+  const handleCepBlur = async () => {
+    const cepLimpo = formData.cep.replace(/\D/g, '');
+    if (cepLimpo.length !== 8) return;
+
+    const toastId = toast.loading('Buscando CEP...');
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.erro) {
+          toast.error('CEP não encontrado.', { id: toastId });
+          return;
+        }
+        setFormData(prev => ({
+          ...prev,
+          logradouro: data.logradouro || prev.logradouro,
+          bairro: data.bairro || prev.bairro,
+          cidade: data.localidade || prev.cidade,
+          estado: data.uf || prev.estado
+        }));
+        toast.success('Endereço preenchido!', { id: toastId });
+      } else {
+        toast.error('Erro ao buscar o CEP.', { id: toastId });
+      }
+    } catch (error) {
+      toast.error('Falha na conexão com o ViaCEP.', { id: toastId });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validarFormulario()) return;
+    
+    const newErrors = {};
+    let firstErrorTab = null;
+
+    // Aba Pessoais
+    const reqPessoais = ['nome', 'data_nascimento', 'cpf', 'rg', 'sexo'];
+    reqPessoais.forEach(field => {
+      if (!formData[field]) newErrors[field] = true;
+    });
+    if (formData.cpf && !validarCPF(formData.cpf)) newErrors.cpf = true;
+
+    // Aba Endereço
+    const reqEndereco = ['email', 'telefone', 'cep', 'estado', 'cidade', 'bairro', 'logradouro', 'numero'];
+    reqEndereco.forEach(field => {
+      if (!formData[field]) newErrors[field] = true;
+    });
+
+    // Aba Acesso
+    const reqAcesso = ['login', 'senha', 'confirmarSenha'];
+    reqAcesso.forEach(field => {
+      if (!formData[field]) newErrors[field] = true;
+    });
+    
+    if (formData.senha && formData.confirmarSenha && formData.senha !== formData.confirmarSenha) {
+      newErrors.confirmarSenha = true;
+      toast.error('As senhas não coincidem!');
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      if (reqPessoais.some(f => newErrors[f])) firstErrorTab = 'pessoais';
+      else if (reqEndereco.some(f => newErrors[f])) firstErrorTab = 'endereco';
+      else if (reqAcesso.some(f => newErrors[f])) firstErrorTab = 'acesso';
+      
+      if (firstErrorTab) setActiveTab(firstErrorTab);
+      toast.error('Verifique os campos destacados em vermelho.');
+      return;
+    }
 
     setLoading(true);
+
     try {
       const payload = {
-        nome: formData.nome,
+        ...formData,
         cpf: formData.cpf.replace(/\D/g, ''),
-        login: formData.login,
-        senha: formData.senha
+        id_perfil: 3, // Perfil de Competidor
+        competidor: 1, 
+        ativo: 1, // Ativo por padrão
+        filiado: 0 // Não filiado por padrão até pagar anuidade
       };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/usuarios/cadastro`, {
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = `${baseUrl}/api/usuarios/cadastro`;
+
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -94,29 +181,27 @@ export default function Registro() {
         body: JSON.stringify(payload)
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (data.errors) {
-          if (data.errors.cpf) {
-            setErrors(prev => ({ ...prev, cpf: 'Este CPF já está cadastrado' }));
-            toast.error('Este CPF já está cadastrado.');
-          } else if (data.errors.login) {
-            setErrors(prev => ({ ...prev, login: 'Este usuário já está em uso' }));
-            toast.error('Este usuário já está em uso.');
-          } else {
-            toast.error('Verifique os dados preenchidos.');
-          }
+      if (res.ok) {
+        toast.success('Cadastro realizado com sucesso! Faça login para continuar.');
+        navigate('/login');
+      } else if (res.status === 422) {
+        const error = await res.json();
+        if (error.errors && error.errors.cpf) {
+          toast.error('Este CPF já está cadastrado.');
+          setActiveTab('pessoais');
+          setErrors(prev => ({ ...prev, cpf: true }));
+        } else if (error.errors && error.errors.login) {
+          toast.error('Este Login já está em uso.');
+          setActiveTab('acesso');
+          setErrors(prev => ({ ...prev, login: true }));
         } else {
-          toast.error(data.mensagem || data.message || 'Erro ao realizar cadastro.');
+          toast.error('Verifique os dados preenchidos e tente novamente.');
         }
-        return;
+      } else {
+        const error = await res.json();
+        toast.error(error.mensagem || 'Erro ao realizar cadastro.');
       }
-
-      toast.success('Cadastro realizado com sucesso! Faça login para continuar.');
-      navigate('/login');
-    } catch (error) {
-      console.error('Erro ao cadastrar:', error);
+    } catch (err) {
       toast.error('Erro de conexão ao servidor.');
     } finally {
       setLoading(false);
@@ -125,140 +210,216 @@ export default function Registro() {
 
   return (
     <div className="login-container">
-      {/* Abstract Background Elements (reusing from login structure if similar) */}
-      <div className="glow-orb orb-1"></div>
-      <div className="glow-orb orb-2"></div>
-
-      <div className="login-panel glass-panel animate-fade-in" style={{ maxWidth: '500px', width: '90%', padding: '20px 30px', boxShadow: '0 15px 50px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.5)' }}>
-        
-        <button 
-          onClick={() => navigate('/')} 
-          className="icon-btn" 
-          style={{ position: 'absolute', top: '1rem', left: '1rem', color: 'var(--color-text-muted)' }}
-          title="Voltar"
-        >
-          <ArrowLeft size={24} />
-        </button>
-
-        <div className="form-header-centered">
-          <h2 className="gradient-text-gold">Cadastre-se</h2>
-          <p style={{ color: 'var(--color-text-muted)' }}>Crie sua conta para acessar o sistema.</p>
+      <div className="login-card" style={{ maxWidth: '800px', width: '100%', margin: '2rem auto' }}>
+        <div className="login-header">
+          <div className="login-logo">
+            <Trophy className="text-gold" size={40} />
+          </div>
+          <h2>Registro de <span className="text-gold">Competidor</span></h2>
+          <p>Preencha os dados abaixo para criar sua conta no RSNC Brazil.</p>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Nome Completo</label>
-            <div style={{ position: 'relative' }}>
-              <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
-              <input
-                type="text"
-                name="nome"
-                value={formData.nome}
-                onChange={handleChange}
-                className={`input-field ${errors.nome ? 'input-error' : ''}`}
-                style={{ width: '100%', paddingLeft: '2.5rem' }}
-                placeholder="Seu nome"
-              />
-            </div>
-            {errors.nome && <span style={{ color: 'var(--color-danger)', fontSize: '0.8rem', marginTop: '4px' }}>{errors.nome}</span>}
-          </div>
-
-          <div className="form-group">
-            <label>CPF</label>
-            <div style={{ position: 'relative' }}>
-              <FileText size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
-              <input
-                type="text"
-                name="cpf"
-                value={formData.cpf}
-                onChange={handleChange}
-                maxLength="14"
-                className={`input-field ${errors.cpf ? 'input-error' : ''}`}
-                style={{ width: '100%', paddingLeft: '2.5rem' }}
-                placeholder="000.000.000-00"
-              />
-            </div>
-            {errors.cpf && <span style={{ color: 'var(--color-danger)', fontSize: '0.8rem', marginTop: '4px' }}>{errors.cpf}</span>}
-          </div>
-
-          <div className="form-group">
-            <label>Login (Nome de Usuário)</label>
-            <div style={{ position: 'relative' }}>
-              <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
-              <input
-                type="text"
-                name="login"
-                value={formData.login}
-                onChange={handleChange}
-                className={`input-field ${errors.login ? 'input-error' : ''}`}
-                style={{ width: '100%', paddingLeft: '2.5rem' }}
-                placeholder="Escolha um login"
-              />
-            </div>
-            {errors.login && <span style={{ color: 'var(--color-danger)', fontSize: '0.8rem', marginTop: '4px' }}>{errors.login}</span>}
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div className="form-group">
-              <label>Senha</label>
-              <div style={{ position: 'relative' }}>
-                <Lock size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
-                <input
-                  type="password"
-                  name="senha"
-                  value={formData.senha}
-                  onChange={handleChange}
-                  className={`input-field ${errors.senha ? 'input-error' : ''}`}
-                  style={{ width: '100%', paddingLeft: '2.5rem' }}
-                  placeholder="******"
-                />
-              </div>
-              {errors.senha && <span style={{ color: 'var(--color-danger)', fontSize: '0.8rem', marginTop: '4px' }}>{errors.senha}</span>}
-            </div>
-
-            <div className="form-group">
-              <label>Confirmar Senha</label>
-              <div style={{ position: 'relative' }}>
-                <Lock size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-muted)' }} />
-                <input
-                  type="password"
-                  name="confirmarSenha"
-                  value={formData.confirmarSenha}
-                  onChange={handleChange}
-                  className={`input-field ${errors.confirmarSenha ? 'input-error' : ''}`}
-                  style={{ width: '100%', paddingLeft: '2.5rem' }}
-                  placeholder="******"
-                />
-              </div>
-              {errors.confirmarSenha && <span style={{ color: 'var(--color-danger)', fontSize: '0.8rem', marginTop: '4px' }}>{errors.confirmarSenha}</span>}
-            </div>
-          </div>
-
+        {/* Tabs Navegação */}
+        <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: '20px', overflowX: 'auto' }}>
           <button 
-            type="submit" 
-            className="btn btn-primary" 
-            style={{ width: '100%', marginTop: '1rem' }}
-            disabled={loading}
+            type="button"
+            onClick={() => setActiveTab('pessoais')}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'pessoais' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'pessoais' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'pessoais' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
           >
-            {loading ? (
-              <><Loader2 size={18} className="spin" style={{ marginRight: '8px' }} /> Processando...</>
-            ) : (
-              <><Save size={18} style={{ marginRight: '8px' }} /> Criar Conta</>
-            )}
+            <User size={18} /> Pessoais
           </button>
-        </form>
-        
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <p style={{ color: 'var(--color-text-muted)' }}>
-            Já possui uma conta?{' '}
-            <span 
-              onClick={() => navigate('/login')} 
-              style={{ color: 'var(--color-primary)', cursor: 'pointer', fontWeight: '500' }}
-            >
-              Fazer Login
-            </span>
-          </p>
+          <button 
+            type="button"
+            onClick={() => setActiveTab('endereco')}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'endereco' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'endereco' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'endereco' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+          >
+            <MapPin size={18} /> Endereço
+          </button>
+          <button 
+            type="button"
+            onClick={() => setActiveTab('acesso')}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'acesso' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'acesso' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'acesso' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+          >
+            <Key size={18} /> Acesso
+          </button>
+          <button 
+            type="button"
+            onClick={() => setActiveTab('nivelamento')}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'nivelamento' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'nivelamento' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'nivelamento' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+          >
+            <Award size={18} /> Nivelamento
+          </button>
         </div>
+
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', textAlign: 'left' }}>
+          
+          {/* TAB 1: DADOS PESSOAIS */}
+          <div style={{ display: activeTab === 'pessoais' ? 'block' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Nome Completo *</label>
+                <input type="text" name="nome" value={formData.nome} onChange={handleChange} className={`input-field ${errors.nome ? 'input-error' : ''}`} />
+              </div>
+              <div className="form-group">
+                <label>Data de Nascimento *</label>
+                <input type="date" name="data_nascimento" value={formData.data_nascimento} onChange={handleChange} className={`input-field ${errors.data_nascimento ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>CPF *</label>
+                <input 
+                  type="text" 
+                  name="cpf" 
+                  value={formData.cpf} 
+                  onChange={handleChange} 
+                  className={`input-field ${errors.cpf ? 'input-error' : ''}`} 
+                  placeholder="000.000.000-00"
+                />
+              </div>
+              <div className="form-group">
+                <label>RG *</label>
+                <input type="text" name="rg" value={formData.rg} onChange={handleChange} className={`input-field ${errors.rg ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Sexo *</label>
+                <select name="sexo" value={formData.sexo} onChange={handleChange} className={`input-field ${errors.sexo ? 'input-error' : ''}`}>
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Handicap Calculado (Nível)</label>
+                <input type="number" name="handicap" value={formData.handicap} readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className={`input-field ${errors.handicap ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Categoria (Treinador / Competidor / Jovem)</label>
+                <input type="text" name="categoria_competidor" value={formData.categoria_competidor || 'Não definida'} readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className="input-field" />
+              </div>
+            </div>
+            
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+              <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-secondary" style={{ width: '100%' }}>Avançar para Endereço</button>
+            </div>
+          </div>
+
+          {/* TAB 2: ENDEREÇO */}
+          <div style={{ display: activeTab === 'endereco' ? 'block' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Telefone / WhatsApp *</label>
+                <input type="text" name="telefone" value={formData.telefone} onChange={handleChange} className={`input-field ${errors.telefone ? 'input-error' : ''}`} />
+              </div>
+              <div className="form-group">
+                <label>E-mail *</label>
+                <input type="email" name="email" value={formData.email} onChange={handleChange} className={`input-field ${errors.email ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>CEP *</label>
+                <input type="text" name="cep" value={formData.cep} onChange={handleChange} onBlur={handleCepBlur} className={`input-field ${errors.cep ? 'input-error' : ''}`} placeholder="Apenas números" />
+              </div>
+              <div className="form-group">
+                <label>Logradouro (Rua, Av.) *</label>
+                <input type="text" name="logradouro" value={formData.logradouro} onChange={handleChange} readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className={`input-field ${errors.logradouro ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Número *</label>
+                <input type="text" name="numero" value={formData.numero} onChange={handleChange} className={`input-field ${errors.numero ? 'input-error' : ''}`} />
+              </div>
+              <div className="form-group">
+                <label>Bairro *</label>
+                <input type="text" name="bairro" value={formData.bairro} onChange={handleChange} readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className={`input-field ${errors.bairro ? 'input-error' : ''}`} />
+              </div>
+              <div className="form-group">
+                <label>Cidade *</label>
+                <input type="text" name="cidade" value={formData.cidade} onChange={handleChange} readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className={`input-field ${errors.cidade ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Estado (UF) *</label>
+                <input type="text" name="estado" value={formData.estado} onChange={handleChange} maxLength="2" readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className={`input-field ${errors.estado ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', marginTop: '1rem' }}>
+              <button type="button" onClick={() => setActiveTab('pessoais')} className="btn btn-secondary" style={{ flex: 1 }}>Voltar</button>
+              <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-secondary" style={{ flex: 1 }}>Avançar para Acesso</button>
+            </div>
+          </div>
+
+          {/* TAB 3: ACESSO AO SISTEMA */}
+          <div style={{ display: activeTab === 'acesso' ? 'block' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Login de Acesso *</label>
+                <input type="text" name="login" value={formData.login} onChange={handleChange} className={`input-field ${errors.login ? 'input-error' : ''}`} />
+              </div>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              <div className="form-group">
+                <label>Senha *</label>
+                <input type="password" name="senha" value={formData.senha} onChange={handleChange} className={`input-field ${errors.senha ? 'input-error' : ''}`} />
+              </div>
+              <div className="form-group">
+                <label>Confirmar Senha *</label>
+                <input type="password" name="confirmarSenha" value={formData.confirmarSenha} onChange={handleChange} className={`input-field ${errors.confirmarSenha ? 'input-error' : ''}`} />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', marginTop: '1rem' }}>
+              <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-secondary" style={{ flex: 1 }}>Voltar</button>
+              <button type="button" onClick={() => setActiveTab('nivelamento')} className="btn btn-secondary" style={{ flex: 1 }}>Avançar para Nivelamento</button>
+            </div>
+          </div>
+
+          {/* TAB 4: NIVELAMENTO */}
+          <div style={{ display: activeTab === 'nivelamento' ? 'block' : 'none' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gold)', textAlign: 'center' }}>Questionário de Nivelamento</h3>
+            
+            <QuestionarioHandicap 
+              dataNascimento={formData.data_nascimento} 
+              onComplete={handleWizardComplete}
+            />
+
+            <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', marginTop: '1rem' }}>
+              <strong>Nível Calculado (Sistema):</strong> {formData.handicap || 'Não definido'} {nivelamentoDisplay && `(${nivelamentoDisplay})`} <br/>
+              <strong>Categoria Calculada:</strong> {formData.categoria_competidor || 'Não definida'}
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+              <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-secondary" style={{ flex: 1 }}>Voltar</button>
+              <button type="submit" className="btn btn-primary" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }} disabled={loading}>
+                <Save size={20} />
+                {loading ? 'Salvando...' : 'Concluir Cadastro'}
+              </button>
+            </div>
+          </div>
+          
+        </form>
+
+        <div className="login-footer" style={{ marginTop: '2rem' }}>
+          <p>Já tem uma conta? <button className="btn-link" onClick={() => navigate('/login')}>Faça Login</button></p>
+          <button className="btn btn-secondary w-100" onClick={() => navigate('/')} style={{ marginTop: '1rem', width: '100%' }}>
+            <ArrowLeft size={20} /> Voltar ao Início
+          </button>
+        </div>
+
       </div>
     </div>
   );
