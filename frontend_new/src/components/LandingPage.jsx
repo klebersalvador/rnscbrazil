@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Calendar, MapPin, Trophy, Users, ChevronRight, UserPlus, 
-  LogIn, CheckSquare, History, LayoutDashboard 
+  LogIn, CheckSquare, History, LayoutDashboard, ZoomIn, X 
 } from 'lucide-react';
 import './Landing.css';
 
@@ -10,6 +10,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPoster, setSelectedPoster] = useState(null);
 
   useEffect(() => {
     fetchEventos();
@@ -150,7 +151,15 @@ export default function LandingPage() {
                       ? `url(${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao})` 
                       : `url(${import.meta.env.BASE_URL}default-event.png?v=5)`
                   }}
+                  onClick={() => setSelectedPoster(
+                    evento.imagem_exibicao && evento.imagem_exibicao !== 'default.jpg' 
+                      ? `${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao}` 
+                      : `${import.meta.env.BASE_URL}default-event.png?v=5`
+                  )}
                 >
+                  <div className="evento-thumb-overlay">
+                    <ZoomIn size={24} />
+                  </div>
                   <div className="evento-date-badge">
                     {evento.data_inicial ? new Date(evento.data_inicial).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) : 'Sem data'}
                   </div>
@@ -188,20 +197,32 @@ export default function LandingPage() {
       <footer className="landing-footer">
         <div className="footer-content">
           <div className="footer-logo">
-            <h2><span className="text-gold">RSNC</span> Brazil</h2>
-            <p>O esporte da família.</p>
+            <Trophy className="footer-icon" />
+            <span>RSNC Brazil</span>
           </div>
           <div className="footer-links">
             <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Sobre o RSNC</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/registro'); }}>Política de Privacidade</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Login Administrador</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/registro'); }}>Seja um Competidor</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Política de Privacidade</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Termos de Uso</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Contato</a>
+          </div>
+          <div className="footer-copyright">
+            &copy; {new Date().getFullYear()} RSNC Brazil. Todos os direitos reservados.
           </div>
         </div>
-        <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} RSNC Brazil. Todos os direitos reservados.</p>
-        </div>
       </footer>
+
+      {/* Lightbox Modal */}
+      {selectedPoster && (
+        <div className="lightbox-overlay" onClick={() => setSelectedPoster(null)}>
+          <button className="lightbox-close" onClick={() => setSelectedPoster(null)}>
+            <X size={32} />
+          </button>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <img src={selectedPoster} alt="Cartaz do Evento" className="lightbox-image" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
