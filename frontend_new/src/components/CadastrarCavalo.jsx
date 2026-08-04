@@ -64,7 +64,8 @@ export default function CadastrarCavalo() {
         rsnc: formData.rsnc ? 1 : 0
       };
 
-      const url = isEdit ? `/api/cavalos/${id}` : '/api/cavalos';
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = isEdit ? `${baseUrl}/api/cavalos/${id}` : `${baseUrl}/api/cavalos`;
       const method = isEdit ? 'PUT' : 'POST';
 
       const response = await fetch(url, {

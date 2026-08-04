@@ -178,7 +178,8 @@ export default function CriarCompetidor() {
     
     try {
       const token = localStorage.getItem('rsnc_token');
-      const url = isEdit ? `/api/usuarios/checar-cpf/${formData.cpf}?ignore_id=${id}` : `/api/usuarios/checar-cpf/${formData.cpf}`;
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = isEdit ? `${baseUrl}/api/usuarios/checar-cpf/${formData.cpf}?ignore_id=${id}` : `${baseUrl}/api/usuarios/checar-cpf/${formData.cpf}`;
       const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
       
       if (res.ok) {
@@ -250,7 +251,8 @@ export default function CriarCompetidor() {
         categoria_competidor: formData.categoria_competidor
       };
 
-      const url = isEdit ? `/api/usuarios/${id}` : '/api/usuarios/cadastro';
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = isEdit ? `${baseUrl}/api/usuarios/${id}` : `${baseUrl}/api/usuarios/cadastro`;
       const method = isEdit ? 'PUT' : 'POST';
 
       const res = await fetch(url, {

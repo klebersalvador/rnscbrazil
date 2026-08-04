@@ -85,7 +85,8 @@ export default function CriarCampeonato() {
         campeonato_finalizado: isEdit ? formData.campeonato_finalizado : 0
       };
 
-      const url = isEdit ? `/api/campeonatos/${id}` : '/api/campeonatos';
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = isEdit ? `${baseUrl}/api/campeonatos/${id}` : `${baseUrl}/api/campeonatos`;
       const method = isEdit ? 'PUT' : 'POST';
 
       const res = await fetch(url, {

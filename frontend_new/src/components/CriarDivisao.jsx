@@ -134,8 +134,8 @@ export default function CriarDivisao() {
         nao_premiar: formData.nao_premiar ? 1 : 0,
         nao_exigir_cadastro: formData.nao_exigir_cadastro ? 1 : 0,
       };
-
-      const url = isEdit ? `/api/divisoes/${id}` : '/api/divisoes';
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = isEdit ? `${baseUrl}/api/divisoes/${id}` : `${baseUrl}/api/divisoes`;
       const method = isEdit ? 'PUT' : 'POST';
 
       const res = await fetch(url, {

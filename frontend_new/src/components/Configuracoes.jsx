@@ -140,7 +140,8 @@ export default function Configuracoes() {
     try {
       const token = localStorage.getItem('rsnc_token');
       const method = editingRaca ? 'PUT' : 'POST';
-      const url = editingRaca ? `/api/racas/${editingRaca.id_raca}` : '/api/racas';
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = editingRaca ? `${baseUrl}/api/racas/${editingRaca.id_raca}` : `${baseUrl}/api/racas`;
 
       const res = await fetch(url, {
         method,
@@ -307,7 +308,8 @@ export default function Configuracoes() {
     try {
       const token = localStorage.getItem('rsnc_token');
       const method = editingRegra ? 'PUT' : 'POST';
-      const url = editingRegra ? `/api/regras/${editingRegra.id_regra}` : '/api/regras';
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = editingRegra ? `${baseUrl}/api/regras/${editingRegra.id_regra}` : `${baseUrl}/api/regras`;
 
       const res = await fetch(url, {
         method,
