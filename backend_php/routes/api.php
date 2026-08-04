@@ -106,3 +106,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/pontuacoes/{id}', [\App\Http\Controllers\PontuacaoController::class, 'update']);
     Route::delete('/pontuacoes/{id}', [\App\Http\Controllers\PontuacaoController::class, 'destroy']);
 });
+
+Route::get('/debug-logs', function () {
+    $logFile = storage_path('logs/laravel.log');
+    if (!file_exists($logFile)) return 'No logs.';
+    $lines = file($logFile);
+    return '<pre>' . implode('', array_slice($lines, -150)) . '</pre>';
+});
