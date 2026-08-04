@@ -57,6 +57,10 @@ class EventoController extends Controller
         $data['data_inicio_inscricoes'] = $data['data_inicio_inscricoes'] ?? now()->format('Y-m-d H:i:s');
         $data['data_fim_inscricoes'] = $data['data_fim_inscricoes'] ?? now()->addDays(7)->format('Y-m-d H:i:s');
         
+        $data['titulo'] = $data['titulo'] ?? 'Sem título';
+        $data['descricao'] = $data['descricao'] ?? '';
+        $data['localizacao'] = $data['localizacao'] ?? '';
+        
         if (!empty($data['data_inicial'])) {
             $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
         }
@@ -73,6 +77,16 @@ class EventoController extends Controller
     public function altera(Request $request, $id)
     {
         $data = $request->all();
+        
+        if (array_key_exists('titulo', $data)) {
+            $data['titulo'] = $data['titulo'] ?? 'Sem título';
+        }
+        if (array_key_exists('descricao', $data)) {
+            $data['descricao'] = $data['descricao'] ?? '';
+        }
+        if (array_key_exists('localizacao', $data)) {
+            $data['localizacao'] = $data['localizacao'] ?? '';
+        }
         
         if (!empty($data['data_inicial'])) {
             $data['data_inicial'] = date('Y-m-d H:i:s', strtotime($data['data_inicial']));
