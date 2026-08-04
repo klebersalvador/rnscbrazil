@@ -73,7 +73,8 @@ export default function CriarEvento() {
 
     try {
       const token = localStorage.getItem('rsnc_token');
-      const url = isEdit ? `/api/eventos/${id}` : '/api/eventos';
+      const baseUrl = import.meta.env.VITE_API_URL || '';
+      const url = isEdit ? `${baseUrl}/api/eventos/${id}` : `${baseUrl}/api/eventos`;
       const method = isEdit ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
