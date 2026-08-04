@@ -209,8 +209,8 @@ export default function Registro() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card" style={{ maxWidth: '800px', width: '100%', margin: '2rem auto' }}>
+    <div className="login-container" style={{ alignItems: 'flex-start', paddingTop: '10vh' }}>
+      <div className="login-card glass-panel animate-fade-in" style={{ maxWidth: '800px', width: '100%', margin: '0 auto', minHeight: '650px', display: 'flex', flexDirection: 'column' }}>
         <div className="login-header">
           <div className="login-logo">
             <Trophy className="text-gold" size={40} />
@@ -251,10 +251,10 @@ export default function Registro() {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', textAlign: 'left' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
           
           {/* TAB 1: DADOS PESSOAIS */}
-          <div style={{ display: activeTab === 'pessoais' ? 'block' : 'none' }}>
+          <div style={{ display: activeTab === 'pessoais' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div className="form-group">
                 <label>Nome Completo *</label>
@@ -305,14 +305,14 @@ export default function Registro() {
               </div>
             </div>
             
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
               <button type="button" onClick={() => navigate('/')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
               <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }}>Avançar <ArrowLeft size={16} style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} /></button>
             </div>
           </div>
 
           {/* TAB 2: ENDEREÇO */}
-          <div style={{ display: activeTab === 'endereco' ? 'block' : 'none' }}>
+          <div style={{ display: activeTab === 'endereco' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div className="form-group">
                 <label>Telefone / WhatsApp *</label>
@@ -357,14 +357,14 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
               <button type="button" onClick={() => setActiveTab('pessoais')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
               <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }}>Avançar <ArrowLeft size={16} style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} /></button>
             </div>
           </div>
 
           {/* TAB 3: ACESSO AO SISTEMA */}
-          <div style={{ display: activeTab === 'acesso' ? 'block' : 'none' }}>
+          <div style={{ display: activeTab === 'acesso' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
               <div className="form-group">
                 <label>Login de Acesso *</label>
@@ -383,14 +383,14 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
               <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
               <button type="button" onClick={() => setActiveTab('nivelamento')} className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }}>Avançar <ArrowLeft size={16} style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} /></button>
             </div>
           </div>
 
           {/* TAB 4: NIVELAMENTO */}
-          <div style={{ display: activeTab === 'nivelamento' ? 'block' : 'none' }}>
+          <div style={{ display: activeTab === 'nivelamento' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
             <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center' }}>Questionário de Nivelamento</h3>
             
             <QuestionarioHandicap 
@@ -403,7 +403,7 @@ export default function Registro() {
               <strong>Categoria Calculada:</strong> {formData.categoria_competidor || 'Não definida'}
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
               <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
               <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '0.6rem 1.5rem', boxShadow: '0 4px 15px rgba(212, 175, 55, 0.4)' }} disabled={loading}>
                 <Save size={18} />
