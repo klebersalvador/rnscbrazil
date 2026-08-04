@@ -88,7 +88,7 @@ export default function CriarEvento() {
 
       if (response.ok) {
         toast.success(isEdit ? 'Evento atualizado com sucesso!' : 'Evento criado com sucesso!');
-        navigate('/');
+        navigate('/eventos');
       } else {
         toast.error(isEdit ? 'Erro ao atualizar evento.' : 'Erro ao criar evento.');
       }

@@ -253,7 +253,7 @@ export default function GerenciarProvas() {
     <>
       <header className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <Link to="/" style={{ color: 'var(--color-primary)', textDecoration: 'none', marginBottom: '10px', display: 'block' }}>&larr; Voltar ao Dashboard</Link>
+          <Link to="/dashboard" style={{ color: 'var(--color-primary)', textDecoration: 'none', marginBottom: '10px', display: 'block' }}>&larr; Voltar ao Dashboard</Link>
           <h1>Gerenciar Provas: {evento?.titulo}</h1>
         </div>
         <button className="btn btn-primary" onClick={() => setShowModal(true)}>+ Nova Prova</button>

@@ -64,7 +64,7 @@ export default function ListarInscricoes() {
   return (
     <div className="analytics-dashboard">
       <div className="dashboard-header" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-        <Link to={`/`} className="btn btn-secondary" style={{ padding: '0.5rem' }} title="Voltar ao Dashboard">
+        <Link to={`/dashboard`} className="btn btn-secondary" style={{ padding: '0.5rem' }} title="Voltar ao Dashboard">
           <ArrowLeft size={20} />
         </Link>
         <div>
