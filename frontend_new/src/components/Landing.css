@@ -239,7 +239,6 @@
   position: relative;
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
   cursor: pointer;
-  overflow: hidden;
 }
 
 .evento-thumb-overlay {
@@ -255,6 +254,7 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   color: var(--color-primary);
+  border-radius: 8px;
 }
 
 .evento-card-thumb:hover .evento-thumb-overlay {
