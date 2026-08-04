@@ -74,8 +74,8 @@ class EventoController extends Controller
             if ($request->hasFile('cartaz')) {
                 $file = $request->file('cartaz');
                 $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '', $file->getClientOriginalName());
-                $file->move(public_path('cartazes'), $filename);
-                $data['imagem_exibicao'] = 'cartazes/' . $filename;
+                $file->move(public_path('uploads/cartazes'), $filename);
+                $data['imagem_exibicao'] = 'uploads/cartazes/' . $filename;
             }
 
             $evento = Evento::create($data);
@@ -111,8 +111,8 @@ class EventoController extends Controller
             if ($request->hasFile('cartaz')) {
                 $file = $request->file('cartaz');
                 $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '', $file->getClientOriginalName());
-                $file->move(public_path('cartazes'), $filename);
-                $data['imagem_exibicao'] = 'cartazes/' . $filename;
+                $file->move(public_path('uploads/cartazes'), $filename);
+                $data['imagem_exibicao'] = 'uploads/cartazes/' . $filename;
             }
 
             $evento = Evento::findOrFail($id);
