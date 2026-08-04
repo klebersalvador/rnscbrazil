@@ -255,7 +255,7 @@ export default function Registro() {
           
           {/* TAB 1: DADOS PESSOAIS */}
           <div style={{ display: activeTab === 'pessoais' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Nome Completo *</label>
                 <input type="text" name="nome" value={formData.nome} onChange={handleChange} className={`input-field ${errors.nome ? 'input-error' : ''}`} />
@@ -266,7 +266,7 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>CPF *</label>
                 <input 
@@ -284,7 +284,7 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Sexo *</label>
                 <select name="sexo" value={formData.sexo} onChange={handleChange} className={`input-field ${errors.sexo ? 'input-error' : ''}`}>
@@ -298,7 +298,7 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Categoria (Treinador / Competidor / Jovem)</label>
                 <input type="text" name="categoria_competidor" value={formData.categoria_competidor || 'Não definida'} readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className="input-field" />
@@ -313,7 +313,7 @@ export default function Registro() {
 
           {/* TAB 2: ENDEREÇO */}
           <div style={{ display: activeTab === 'endereco' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Telefone / WhatsApp *</label>
                 <input type="text" name="telefone" value={formData.telefone} onChange={handleChange} className={`input-field ${errors.telefone ? 'input-error' : ''}`} />
@@ -324,7 +324,7 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>CEP *</label>
                 <input type="text" name="cep" value={formData.cep} onChange={handleChange} onBlur={handleCepBlur} className={`input-field ${errors.cep ? 'input-error' : ''}`} placeholder="Apenas números" />
@@ -335,7 +335,7 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Número *</label>
                 <input type="text" name="numero" value={formData.numero} onChange={handleChange} className={`input-field ${errors.numero ? 'input-error' : ''}`} />
@@ -350,7 +350,7 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Estado (UF) *</label>
                 <input type="text" name="estado" value={formData.estado} onChange={handleChange} maxLength="2" readOnly style={{ opacity: 0.7, cursor: 'not-allowed' }} className={`input-field ${errors.estado ? 'input-error' : ''}`} />
@@ -365,14 +365,14 @@ export default function Registro() {
 
           {/* TAB 3: ACESSO AO SISTEMA */}
           <div style={{ display: activeTab === 'acesso' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Login de Acesso *</label>
                 <input type="text" name="login" value={formData.login} onChange={handleChange} className={`input-field ${errors.login ? 'input-error' : ''}`} />
               </div>
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
               <div className="form-group">
                 <label>Senha *</label>
                 <input type="password" name="senha" value={formData.senha} onChange={handleChange} className={`input-field ${errors.senha ? 'input-error' : ''}`} />
