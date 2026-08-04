@@ -144,16 +144,14 @@ export default function LandingPage() {
             eventos.map((evento) => (
               <div key={evento.id_evento} className="evento-card glass-panel hover-lift">
                 <div 
-                  className="evento-card-image"
+                  className="evento-card-thumb"
                   style={{
                     backgroundImage: evento.imagem_exibicao && evento.imagem_exibicao !== 'default.jpg' 
                       ? `url(${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao})` 
-                      : undefined,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'top center'
+                      : `linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(26, 29, 36, 1) 100%), url('/hero-bg.png')`
                   }}
                 >
-                  <div className="evento-date">
+                  <div className="evento-date-badge">
                     {evento.data_inicial ? new Date(evento.data_inicial).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) : 'Sem data'}
                   </div>
                 </div>
