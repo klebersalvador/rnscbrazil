@@ -210,8 +210,8 @@
 }
 
 .evento-card-image {
-  height: 120px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(26, 29, 36, 1) 100%), url('/hero-bg.png') center/cover;
+  aspect-ratio: 3/4;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(26, 29, 36, 1) 100%), url('/hero-bg.png') top center/cover;
   position: relative;
   display: flex;
   align-items: center;

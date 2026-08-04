@@ -147,7 +147,7 @@ export default function LandingPage() {
                   className="evento-card-image"
                   style={{
                     backgroundImage: evento.imagem_exibicao && evento.imagem_exibicao !== 'default.jpg' 
-                      ? `linear-gradient(135deg, rgba(26, 29, 36, 0.2) 0%, rgba(26, 29, 36, 1) 100%), url(${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao})` 
+                      ? `url(${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao})` 
                       : undefined
                   }}
                 >
