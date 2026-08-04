@@ -250,7 +250,7 @@ export default function Registro() {
         
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
           <p style={{ color: 'var(--color-text-muted)' }}>
-            Já possui uma conta?{' 
+            Já possui uma conta?{' '}
             <span 
               onClick={() => navigate('/login')} 
               style={{ color: 'var(--color-primary)', cursor: 'pointer', fontWeight: '500' }}
