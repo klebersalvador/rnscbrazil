@@ -12,6 +12,7 @@ import GerenciarProvas from './components/GerenciarProvas';
 import GerenciarSorteio from './components/GerenciarSorteio';
 import GerenciarResultados from './components/GerenciarResultados';
 import ImprimirResultado from './components/ImprimirResultado';
+import PainelLocutor from './components/PainelLocutor';
 import ListarEventos from './components/ListarEventos';
 import ListarCompetidores from './components/ListarCompetidores';
 import CriarCompetidor from './components/CriarCompetidor';
@@ -60,6 +61,7 @@ function App() {
           } />
           
           <Route path="/provas/:id/imprimir" element={<RequireAuth><ImprimirResultado /></RequireAuth>} />
+          <Route path="/provas/:id/locutor" element={<RequireAuth><PainelLocutor /></RequireAuth>} />
           
           <Route element={<RequireAuth><Layout onLogout={handleLogout} /></RequireAuth>}>
             <Route path="/dashboard" element={<Dashboard />} />

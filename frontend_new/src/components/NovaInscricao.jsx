@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ClipboardEdit } from 'lucide-react';
+import { ClipboardEdit, AlertCircle, Info } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Select from 'react-select';
 
@@ -29,6 +29,7 @@ export default function NovaInscricao() {
 
   const [isDrawForced, setIsDrawForced] = useState(false);
   const [isTodosContraTodos, setIsTodosContraTodos] = useState(false);
+  const [validationErrors, setValidationErrors] = useState([]);
 
   useEffect(() => {
     const selectedProva = provas.find(p => p.id_prova === Number(formData.id_prova) || p.id_prova === formData.id_prova);
@@ -116,6 +117,108 @@ export default function NovaInscricao() {
       };
     });
   };
+
+  useEffect(() => {
+    const selectedProva = provas.find(p => p.id_prova === Number(formData.id_prova) || p.id_prova === formData.id_prova);
+    if (!selectedProva || !selectedProva.divisao) {
+      setValidationErrors([]);
+      return;
+    }
+
+    const errors = [];
+    const div = selectedProva.divisao;
+    
+    const comps = [];
+    if (formData.id_competidor1) comps.push(competidores.find(c => c.id_usuario === formData.id_competidor1));
+    if (formData.id_competidor2 && !formData.is_draw && formData.modalidade >= 2) comps.push(competidores.find(c => c.id_usuario === formData.id_competidor2));
+    if (formData.id_competidor3 && !formData.is_draw && formData.modalidade === 3) comps.push(competidores.find(c => c.id_usuario === formData.id_competidor3));
+
+    const validComps = comps.filter(Boolean);
+
+    if (validComps.length > 0) {
+      let somaHandicap = 0;
+      let somaIdade = 0;
+      let hasAgeMissing = false;
+
+      validComps.forEach(c => {
+        const hc = parseFloat(c.handicap || 0);
+        somaHandicap += hc;
+        
+        let age = null;
+        if (c.data_nascimento && c.data_nascimento !== '0000-00-00 00:00:00' && c.data_nascimento !== '0000-00-00') {
+          const birthDate = new Date(c.data_nascimento);
+          const diff = Date.now() - birthDate.getTime();
+          age = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+          somaIdade += age;
+        } else {
+          hasAgeMissing = true;
+        }
+      });
+
+      if (div.somatorio_minimo !== null && somaHandicap < parseFloat(div.somatorio_minimo)) {
+         errors.push(`A soma de handicap da equipe (${somaHandicap}) é menor que o mínimo exigido (${div.somatorio_minimo}).`);
+      }
+      if (div.somatorio_maximo !== null && somaHandicap > parseFloat(div.somatorio_maximo)) {
+         errors.push(`A soma de handicap da equipe (${somaHandicap}) ultrapassa o limite da divisão (${div.somatorio_maximo}).`);
+      }
+
+      if (div.regras && div.regras.length > 0) {
+         div.regras.forEach(regra => {
+           const p1 = regra.pivot?.parametro1;
+           const applyToSum = regra.regra_aplicante == 3;
+
+           if (regra.id_regra === 1) { // Idade máxima
+             if (applyToSum) {
+               if (hasAgeMissing) errors.push(`Regra [${regra.nome}]: algum competidor não possui data de nascimento cadastrada.`);
+               else if (somaIdade > parseFloat(p1)) errors.push(`Regra [${regra.nome}]: a soma das idades (${somaIdade}) é maior que o permitido (${p1}).`);
+             } else {
+               validComps.forEach(c => {
+                 let age = null;
+                 if (c.data_nascimento && c.data_nascimento !== '0000-00-00 00:00:00') {
+                   age = Math.floor((Date.now() - new Date(c.data_nascimento).getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+                   if (age > parseFloat(p1)) errors.push(`Regra [${regra.nome}]: competidor ${c.nome} excedeu a idade máxima (${age} > ${p1}).`);
+                 } else {
+                   errors.push(`Regra [${regra.nome}]: competidor ${c.nome} não possui data de nascimento.`);
+                 }
+               });
+             }
+           }
+           if (regra.id_regra === 2) { // Idade mínima
+             if (applyToSum) {
+               if (hasAgeMissing) errors.push(`Regra [${regra.nome}]: algum competidor não possui data de nascimento cadastrada.`);
+               else if (somaIdade < parseFloat(p1)) errors.push(`Regra [${regra.nome}]: a soma das idades (${somaIdade}) é menor que o permitido (${p1}).`);
+             } else {
+               validComps.forEach(c => {
+                 let age = null;
+                 if (c.data_nascimento && c.data_nascimento !== '0000-00-00 00:00:00') {
+                   age = Math.floor((Date.now() - new Date(c.data_nascimento).getTime()) / (1000 * 60 * 60 * 24 * 365.25));
+                   if (age < parseFloat(p1)) errors.push(`Regra [${regra.nome}]: competidor ${c.nome} não atingiu a idade mínima (${age} < ${p1}).`);
+                 } else {
+                   errors.push(`Regra [${regra.nome}]: competidor ${c.nome} não possui data de nascimento.`);
+                 }
+               });
+             }
+           }
+           if (regra.id_regra === 4) { // Handicap Máximo
+             validComps.forEach(c => {
+               if (parseFloat(c.handicap || 0) > parseFloat(p1)) {
+                 errors.push(`Regra [${regra.nome}]: competidor ${c.nome} tem handicap maior que o permitido (${c.handicap} > ${p1}).`);
+               }
+             });
+           }
+           if (regra.id_regra === 5) { // Handicap Mínimo
+             validComps.forEach(c => {
+               if (parseFloat(c.handicap || 0) < parseFloat(p1)) {
+                 errors.push(`Regra [${regra.nome}]: competidor ${c.nome} tem handicap menor que o permitido (${c.handicap} < ${p1}).`);
+               }
+             });
+           }
+         });
+      }
+    }
+
+    setValidationErrors(errors);
+  }, [formData.id_competidor1, formData.id_competidor2, formData.id_competidor3, formData.id_prova, formData.is_draw, formData.modalidade, competidores, provas]);
 
   const handleSelectChange = (name, selectedOption) => {
     setFormData(prev => ({
@@ -289,6 +392,31 @@ export default function NovaInscricao() {
             </select>
           </div>
 
+          {(() => {
+            const selectedProva = provas.find(p => p.id_prova === Number(formData.id_prova) || p.id_prova === formData.id_prova);
+            if (selectedProva && selectedProva.divisao) {
+              const div = selectedProva.divisao;
+              const hasLimites = div.somatorio_minimo !== null || div.somatorio_maximo !== null || (div.regras && div.regras.length > 0);
+              if (hasLimites) {
+                return (
+                  <div style={{ marginTop: '15px', padding: '10px 15px', background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.3)', borderRadius: '8px' }}>
+                    <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-primary)', margin: '0 0 8px 0', fontSize: '0.95rem' }}>
+                      <Info size={16} /> Resumo das Regras: {div.nome}
+                    </h4>
+                    <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.85rem', color: '#ccc' }}>
+                      {div.somatorio_minimo !== null && <li>Soma mínima de Handicap: <strong>{div.somatorio_minimo}</strong></li>}
+                      {div.somatorio_maximo !== null && <li>Soma máxima de Handicap: <strong>{div.somatorio_maximo}</strong></li>}
+                      {div.regras && div.regras.map(r => (
+                        <li key={r.id_regra}>{r.nome} {r.pivot?.parametro1 ? `(${r.pivot.parametro1})` : ''}</li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              }
+            }
+            return null;
+          })()}
+
           {formData.id_prova && (
             <div className="form-group" style={{ marginTop: '20px' }}>
               <label>Modalidade da Equipe</label>
@@ -436,11 +564,24 @@ export default function NovaInscricao() {
             <label htmlFor="boite" style={{ marginBottom: 0 }}>Gado de Boite (Necessita aluguel)</label>
           </div>
 
+          {validationErrors.length > 0 && (
+            <div style={{ marginTop: '20px', padding: '15px', background: 'rgba(230, 57, 70, 0.1)', border: '1px solid var(--color-danger)', borderRadius: '8px', color: '#ff6b6b' }}>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 10px 0', fontSize: '1rem' }}>
+                <AlertCircle size={20} /> Atenção: Restrições de Divisão
+              </h4>
+              <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.9rem' }}>
+                {validationErrors.map((err, idx) => (
+                  <li key={idx} style={{ marginBottom: '5px' }}>{err}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="form-actions" style={{ marginTop: '30px', display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
             <button type="button" className="btn btn-secondary" onClick={() => navigate(-1)}>
               Cancelar ou Voltar
             </button>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
+            <button type="submit" className="btn btn-primary" disabled={loading || validationErrors.length > 0} style={{ opacity: validationErrors.length > 0 ? 0.5 : 1 }}>
               {loading ? 'Validando...' : 'Confirmar Inscrição'}
             </button>
           </div>

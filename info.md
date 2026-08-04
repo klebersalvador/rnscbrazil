@@ -452,3 +452,77 @@ Alex, preciso definir alguns detalhes aqui no sistema:
 
 Passadas (Go's): Nas provas que voce organiza, cada dupla corre apenas uma vez para definir o campeão, ou a prova costuma ter várias passadas (ex: Go 1, Go 2 e Final) onde os tempos/bois de cada etapa são somados?
 Regra de Desempate: O sistema hoje faz o desempate oficial assim: Ganha quem apartou Mais Bois. Se houver empate na quantidade de bois, ganha quem fez o Menor Tempo. É essa a regra que devemos manter blindada no código?
+
+
+
+P A I N E L  D O    L O C U T O R ========================================
+
+Painel do Locutor (Interface de Inserção de Dados)
+O objetivo desta etapa é criar uma interface dedicada, limpa e de digitação ultrarrápida (focada no teclado) para os mesários e locutores inserirem os tempos das provas.
+
+Embora já tenhamos a tela de "Resultados", ela é uma tabela gerencial (com várias abas, botão de exportar XML, Placar Geral, etc.). A nova interface será um "Modo Foco" (Focus Mode).
+
+Proposed Changes
+1. Novo Componente: PainelLocutor.jsx
+Será criada uma tela onde o foco principal está na dupla atual (que está na pista).
+
+Visualização da Dupla Atual: Nome gigante dos competidores, cavalos e número de ordem.
+Visualização da Próxima Dupla: Quem está no brete se preparando (para o locutor já ir anunciando).
+Campos de Digitação: Duas caixas gigantes para Bois e Tempo.
+Fluxo Contínuo: Ao digitar o tempo e dar Enter, o sistema salva o resultado via API, emite um aviso de sucesso, e imediatamente puxa a "Próxima Dupla" para a tela principal, colocando o cursor direto no campo "Bois" de novo. O mesário não precisará usar o mouse.
+Botão SAT: Um atalho (botão grande e também tecla de atalho no teclado, ex: Espaço ou botão específico) para marcar Sem Aproveitamento Técnico rapidamente.
+[NEW] frontend_new/src/components/PainelLocutor.jsx
+Criação do arquivo contendo toda a lógica de estado e requisições para a API (GET /api/inscricoes/prova/:id e POST /api/inscricoes/:id/resultado).
+
+[NEW] frontend_new/src/components/PainelLocutor.css
+Estilos específicos (letras muito grandes, layout limpo, cores de contraste alto para ambientes abertos/ensolarados).
+
+2. Rotas e Navegação (App.jsx & Dashboard/Menu)
+Precisamos tornar essa tela acessível.
+
+[MODIFY] frontend_new/src/App.jsx
+Adicionar a rota /provas/:id/locutor que renderizará o componente <PainelLocutor />.
+
+[MODIFY] frontend_new/src/components/GerenciarProvas.jsx
+Adicionar um botão de atalho na lista de provas (ao lado de Sorteio e Resultados) com o ícone de um microfone ou tela para abrir o "Painel do Locutor".
+
+User Review Required
+IMPORTANT
+
+Fluxo de Digitação: A ideia de pressionar Enter e o sistema já puxar a próxima dupla na mesma tela atende bem ao fluxo rápido do locutor? Atalho SAT: Deseja que eu adicione alguma tecla de atalho específica no teclado para marcar SAT (exemplo: pressionar a letra "S" ou "Espaço") para evitar o uso do mouse?
+
+Verification Plan
+Testes Manuais
+Entrar na nova rota do Painel do Locutor.
+Verificar se a dupla correta (a primeira sem tempo lançado) aparece na tela.
+Digitar Bois -> Enter -> Tempo -> Enter.
+Validar se o sistema salva, notifica e puxa a próxima dupla automaticamente sem encostar no mouse.
+
+
+
+
+
+LOGICAS DE BLOQUEIO - ====================================================================
+
+Lógicas de Bloqueio/Acesso (Validação de Regras no Frontend)
+O backend já possui um motor robusto de validação de regras de divisão (via ValidaInscricaoService), que bloqueia inscrições e retorna um erro. No entanto, para oferecer a melhor experiência de usuário, precisamos trazer essa inteligência para o Frontend em tempo real.
+
+O objetivo é que, ao selecionar os competidores na tela de Nova Inscrição, o sistema já avise imediatamente se a equipe é inválida (ex: soma de handicap estourou) e bloqueie o botão de salvar ANTES do usuário tentar enviar.
+
+Proposed Changes
+[MODIFY] frontend_new/src/components/NovaInscricao.jsx
+Lógica de Validação em Tempo Real: Adicionar um useEffect que observa os campos id_competidor1, id_competidor2 (e 3) e recalcula as regras.
+Validação de Somatório de Handicap: Obter os handicaps dos competidores selecionados, somá-los, e verificar contra divisao.somatorio_minimo e divisao.somatorio_maximo.
+Validação de Regras Customizadas (Idade, Handicap Individual, etc): Mapear as regras que vêm em divisao.regras e aplicar verificações instantâneas (ex: Idade máxima, Handicap máximo).
+Feedback Visual (Bloqueio): Se houver erros, exibir uma caixa vermelha de alerta (ex: "A soma de handicap (6) ultrapassa o limite da divisão (4)") e desabilitar o botão de confirmar inscrição.
+Regras Informativas: Exibir um pequeno quadro com o "Resumo das Regras desta Divisão" logo abaixo de onde o usuário seleciona a prova.
+User Review Required
+IMPORTANT
+
+O backend já possui validação de limites de Inscrições por Pessoa (ex: "Competidor já excedeu 5 inscrições"). Como essa verificação depende de ler todas as inscrições já salvas no banco de dados, o frontend não fará essa verificação em tempo real (ela continuará sendo barrada pelo backend ao tentar salvar). Você concorda com essa abordagem mista? (Frontend valida handicap/idade; Backend valida histórico e limites totais)
+
+Verification Plan
+Criar um evento e uma prova com divisão de Handicap máximo (ex: limite 4).
+Na tela de Nova Inscrição, selecionar a prova.
+Escolher dois competidores cujo handicap somado seja 5.
+Verificar se a tela exibe um aviso vermelho em tempo real alertando o estouro do limite e se o botão de Inscrição fica bloqueado (cinza).

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { ArrowLeft, Timer, User, Check, Trophy, FileText, Printer } from 'lucide-react';
 
@@ -239,9 +239,9 @@ export default function GerenciarResultados() {
             <button className="btn btn-secondary" onClick={handleExportXML} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#4facfe' }}>
               <FileText size={18} /> Exportar XML
             </button>
-            <button className="btn btn-primary" onClick={() => window.open(`/provas/${id}/imprimir`, '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Link to={`/provas/${id}/imprimir`} target="_blank" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Printer size={18} /> Imprimir PDF
-            </button>
+            </Link>
           </div>
         </div>
 

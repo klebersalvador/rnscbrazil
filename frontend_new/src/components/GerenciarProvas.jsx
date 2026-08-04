@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { Dices, Timer, Edit2, Trash2 } from 'lucide-react';
+import { Dices, Timer, Edit2, Trash2, Mic } from 'lucide-react';
 import ConfirmModal from './ConfirmModal';
 
 export default function GerenciarProvas() {
@@ -476,6 +476,9 @@ export default function GerenciarProvas() {
                     </Link>
                     <Link to={`/provas/${prova.id_prova}/resultados`} className="btn btn-secondary" style={{ padding: '0.4rem', color: '#2ecc71' }} title="Resultados / Cronômetro">
                       <Timer size={18} />
+                    </Link>
+                    <Link to={`/provas/${prova.id_prova}/locutor`} className="btn btn-secondary" style={{ padding: '0.4rem', color: '#e74c3c' }} title="Painel do Locutor (Modo Foco)">
+                      <Mic size={18} />
                     </Link>
                     <button className="btn btn-secondary" onClick={() => openEditModal(prova)} style={{ padding: '0.4rem' }} title="Editar">
                       <Edit2 size={18} />
