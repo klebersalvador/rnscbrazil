@@ -148,7 +148,7 @@ export default function LandingPage() {
                   style={{
                     backgroundImage: evento.imagem_exibicao && evento.imagem_exibicao !== 'default.jpg' 
                       ? `url(${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao})` 
-                      : `url('/default-event.png')`
+                      : `url(${import.meta.env.BASE_URL}default-event.png?v=4)`
                   }}
                 >
                   <div className="evento-date-badge">
