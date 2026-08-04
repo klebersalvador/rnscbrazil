@@ -224,28 +224,28 @@ export default function Registro() {
           <button 
             type="button"
             onClick={() => setActiveTab('pessoais')}
-            style={{ padding: '0.875rem 1rem', background: activeTab === 'pessoais' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'pessoais' ? '3px solid var(--color-gold)' : '3px solid transparent', borderRadius: '4px', color: activeTab === 'pessoais' ? 'var(--color-gold)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
+            style={{ padding: '0.875rem 1rem', background: activeTab === 'pessoais' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'pessoais' ? '3px solid var(--color-primary)' : '3px solid transparent', borderRadius: '8px', color: activeTab === 'pessoais' ? 'var(--color-primary)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
           >
             <User size={18} style={{ opacity: activeTab === 'pessoais' ? 1 : 0.7 }} /> Pessoais
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab('endereco')}
-            style={{ padding: '0.875rem 1rem', background: activeTab === 'endereco' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'endereco' ? '3px solid var(--color-gold)' : '3px solid transparent', borderRadius: '4px', color: activeTab === 'endereco' ? 'var(--color-gold)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
+            style={{ padding: '0.875rem 1rem', background: activeTab === 'endereco' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'endereco' ? '3px solid var(--color-primary)' : '3px solid transparent', borderRadius: '8px', color: activeTab === 'endereco' ? 'var(--color-primary)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
           >
             <MapPin size={18} style={{ opacity: activeTab === 'endereco' ? 1 : 0.7 }} /> Endereço
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab('acesso')}
-            style={{ padding: '0.875rem 1rem', background: activeTab === 'acesso' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'acesso' ? '3px solid var(--color-gold)' : '3px solid transparent', borderRadius: '4px', color: activeTab === 'acesso' ? 'var(--color-gold)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
+            style={{ padding: '0.875rem 1rem', background: activeTab === 'acesso' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'acesso' ? '3px solid var(--color-primary)' : '3px solid transparent', borderRadius: '8px', color: activeTab === 'acesso' ? 'var(--color-primary)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
           >
             <Key size={18} style={{ opacity: activeTab === 'acesso' ? 1 : 0.7 }} /> Acesso
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab('nivelamento')}
-            style={{ padding: '0.875rem 1rem', background: activeTab === 'nivelamento' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'nivelamento' ? '3px solid var(--color-gold)' : '3px solid transparent', borderRadius: '4px', color: activeTab === 'nivelamento' ? 'var(--color-gold)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
+            style={{ padding: '0.875rem 1rem', background: activeTab === 'nivelamento' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderLeft: activeTab === 'nivelamento' ? '3px solid var(--color-primary)' : '3px solid transparent', borderRadius: '8px', color: activeTab === 'nivelamento' ? 'var(--color-primary)' : 'var(--color-text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: '500', whiteSpace: 'nowrap', transition: 'all 0.2s ease' }}
           >
             <Award size={18} style={{ opacity: activeTab === 'nivelamento' ? 1 : 0.7 }} /> Nivelamento
           </button>
@@ -305,7 +305,8 @@ export default function Registro() {
               </div>
             </div>
             
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+              <button type="button" onClick={() => navigate('/')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
               <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }}>Avançar <ArrowLeft size={16} style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} /></button>
             </div>
           </div>
@@ -390,7 +391,7 @@ export default function Registro() {
 
           {/* TAB 4: NIVELAMENTO */}
           <div style={{ display: activeTab === 'nivelamento' ? 'block' : 'none' }}>
-            <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-gold)', textAlign: 'center' }}>Questionário de Nivelamento</h3>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center' }}>Questionário de Nivelamento</h3>
             
             <QuestionarioHandicap 
               dataNascimento={formData.data_nascimento} 
@@ -412,12 +413,6 @@ export default function Registro() {
           </div>
           
         </form>
-
-        <div className="login-footer" style={{ marginTop: '2rem' }}>
-          <button className="btn btn-secondary" onClick={() => navigate('/')} style={{ marginTop: '1rem', width: '100%' }}>
-            <ArrowLeft size={20} /> Voltar ao Início
-          </button>
-        </div>
 
       </div>
     </div>
