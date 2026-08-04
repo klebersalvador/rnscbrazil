@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, MapPin, Trophy, Users, ChevronRight, UserPlus, LogIn, ChevronDown } from 'lucide-react';
+import { 
+  Calendar, MapPin, Trophy, Users, ChevronRight, UserPlus, 
+  LogIn, CheckSquare, History, LayoutDashboard 
+} from 'lucide-react';
 import './Landing.css';
 
 export default function LandingPage() {
@@ -51,34 +54,87 @@ export default function LandingPage() {
       {/* Hero Section */}
       <header className="hero-section">
         <div className="hero-content animate-fade-in">
-          <h1 className="hero-title">
-            O Maior Portal de <br /> <span className="gradient-text-gold">Ranch Sorting</span> do Brasil
-          </h1>
-          <p className="hero-subtitle">
-            Acompanhe os resultados, inscreva-se em eventos e faça parte da maior comunidade equestre. 
-            A adrenalina das pistas agora na palma da sua mão.
-          </p>
-          <div className="hero-buttons">
-            <button className="btn btn-primary btn-lg" onClick={() => navigate('/registro')}>
-              Junte-se a nós
+          
+          <div className="hero-branding">
+            <h1 className="hero-title">
+              <span className="text-gold">RSNC</span> Brazil
+            </h1>
+            <p className="hero-subtitle">
+              A MAIOR PLATAFORMA DE RANCH SORTING DO PAÍS. INSCREVA-SE EM ETAPAS, ACOMPANHE O RANKING OFICIAL E VIVA A EMOÇÃO DAS PISTAS.
+            </p>
+          </div>
+
+          <div className="action-grid">
+            <button className="action-card glass-panel hover-lift" onClick={() => navigate('/login')}>
+              <div className="action-icon-wrapper">
+                <CheckSquare size={32} />
+              </div>
+              <div className="action-text">
+                <h3>Fazer Inscrição</h3>
+                <p>Participar de provas</p>
+              </div>
             </button>
-            <button className="btn btn-secondary btn-lg btn-outline" onClick={scrollToResultados}>
-              Últimos Resultados <ChevronDown size={20} style={{ marginLeft: '8px' }} />
+
+            <button className="action-card glass-panel hover-lift" onClick={() => navigate('/registro')}>
+              <div className="action-icon-wrapper">
+                <UserPlus size={32} />
+              </div>
+              <div className="action-text">
+                <h3>Criar Conta</h3>
+                <p>Necessário para participar</p>
+              </div>
+            </button>
+
+            <button className="action-card glass-panel hover-lift" onClick={() => navigate('/legado/resultados')}>
+              <div className="action-icon-wrapper">
+                <History size={32} />
+              </div>
+              <div className="action-text">
+                <h3>Resultados Antigos</h3>
+                <p>Histórico de provas</p>
+              </div>
+            </button>
+
+            <button className="action-card glass-panel hover-lift" onClick={scrollToResultados}>
+              <div className="action-icon-wrapper">
+                <Calendar size={32} />
+              </div>
+              <div className="action-text">
+                <h3>Calendário de Provas</h3>
+                <p>Próximos eventos</p>
+              </div>
+            </button>
+
+            <button className="action-card glass-panel hover-lift" onClick={() => navigate('/dashboard')}>
+              <div className="action-icon-wrapper">
+                <LayoutDashboard size={32} />
+              </div>
+              <div className="action-text">
+                <h3>Meu Painel</h3>
+                <p>Gerencie sua conta</p>
+              </div>
+            </button>
+
+            <button className="action-card glass-panel hover-lift" onClick={() => navigate('/login')}>
+              <div className="action-icon-wrapper">
+                <Trophy size={32} />
+              </div>
+              <div className="action-text">
+                <h3>Ranking Nacional</h3>
+                <p>Acompanhe sua posição</p>
+              </div>
             </button>
           </div>
+
         </div>
-        
-        {/* Abstract Gold Elements for background */}
-        <div className="glow-orb orb-1"></div>
-        <div className="glow-orb orb-2"></div>
       </header>
 
-      {/* Resultados Section */}
+      {/* Resultados / Próximos Eventos Section */}
       <section id="resultados" className="resultados-section">
         <div className="section-header">
           <Trophy className="header-icon-gold" size={40} />
-          <h2 className="gradient-text-gold">Últimos Eventos</h2>
-          <p>Confira os resultados das competições mais recentes</p>
+          <h2 className="gradient-text-gold">Próximos Eventos</h2>
+          <p>Confira a agenda e inscreva-se nas próximas competições</p>
         </div>
 
         <div className="eventos-grid">
@@ -87,7 +143,14 @@ export default function LandingPage() {
           ) : eventos.length > 0 ? (
             eventos.map((evento) => (
               <div key={evento.id_evento} className="evento-card glass-panel hover-lift">
-                <div className="evento-card-image">
+                <div 
+                  className="evento-card-image"
+                  style={{
+                    backgroundImage: evento.imagem_exibicao && evento.imagem_exibicao !== 'default.jpg' 
+                      ? `linear-gradient(135deg, rgba(26, 29, 36, 0.2) 0%, rgba(26, 29, 36, 1) 100%), url(${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao})` 
+                      : undefined
+                  }}
+                >
                   <div className="evento-date">
                     {evento.data_inicial ? new Date(evento.data_inicial).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) : 'Sem data'}
                   </div>
@@ -99,9 +162,8 @@ export default function LandingPage() {
                     <span className="info-item"><Users size={16} /> {evento.organizador?.nome || 'Organização'}</span>
                   </div>
                   <div className="evento-card-footer">
-                    <span className="status-badge success">Concluído</span>
-                    <button className="btn btn-secondary btn-sm" onClick={() => navigate('/login')}>
-                      Ver Placar <ChevronRight size={16} />
+                    <button className="btn btn-primary btn-sm w-100" onClick={() => navigate('/login')}>
+                      <CheckSquare size={16} style={{ marginRight: '8px' }} /> Inscrever-se
                     </button>
                   </div>
                 </div>
@@ -110,14 +172,14 @@ export default function LandingPage() {
           ) : (
             <div className="no-events glass-panel">
               <Calendar size={48} className="text-muted" />
-              <p>Nenhum evento recente encontrado.</p>
+              <p>Nenhum evento futuro encontrado.</p>
             </div>
           )}
         </div>
         
         <div className="view-all-container">
           <button className="btn btn-secondary" onClick={() => navigate('/login')}>
-            Ver todos os eventos do circuito
+            Ver calendário completo
           </button>
         </div>
       </section>
@@ -130,6 +192,8 @@ export default function LandingPage() {
             <p>O esporte da família.</p>
           </div>
           <div className="footer-links">
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Sobre o RSNC</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate('/registro'); }}>Política de Privacidade</a>
             <a href="#" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Login Administrador</a>
             <a href="#" onClick={(e) => { e.preventDefault(); navigate('/registro'); }}>Seja um Competidor</a>
           </div>

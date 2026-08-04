@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CalendarPlus, Calendar, Save } from 'lucide-react';
+import { CalendarPlus, Calendar, Save, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 export default function CriarEvento() {
@@ -9,6 +9,9 @@ export default function CriarEvento() {
   const isEdit = Boolean(id);
   const [loading, setLoading] = useState(false);
   const [campeonatos, setCampeonatos] = useState([]);
+  const [cartazFile, setCartazFile] = useState(null);
+  const [previewImagem, setPreviewImagem] = useState(null);
+
   const [formData, setFormData] = useState({
     titulo: '',
     descricao: '',
@@ -52,6 +55,9 @@ export default function CriarEvento() {
               id_campeonato: data.id_campeonato || '',
               finalizado: data.finalizado || 0
             });
+            if (data.imagem_exibicao && data.imagem_exibicao !== 'default.jpg') {
+              setPreviewImagem(`${import.meta.env.VITE_API_URL || ''}/${data.imagem_exibicao}`);
+            }
           }
         } catch (err) {
           console.error(err);
@@ -67,6 +73,14 @@ export default function CriarEvento() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setCartazFile(file);
+      setPreviewImagem(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -75,23 +89,38 @@ export default function CriarEvento() {
       const token = localStorage.getItem('rsnc_token');
       const baseUrl = import.meta.env.VITE_API_URL || '';
       const url = isEdit ? `${baseUrl}/api/eventos/${id}` : `${baseUrl}/api/eventos`;
-      const method = isEdit ? 'PUT' : 'POST';
+      
+      const payload = new FormData();
+      Object.keys(formData).forEach(key => {
+        if (formData[key] !== null && formData[key] !== '') {
+          payload.append(key, formData[key]);
+        }
+      });
+      
+      if (cartazFile) {
+        payload.append('cartaz', cartazFile);
+      }
+
+      if (isEdit) {
+        payload.append('_method', 'PUT');
+      }
 
       const response = await fetch(url, {
-        method: method,
+        method: 'POST', // Sempre POST por causa do FormData (Laravel entende o _method=PUT)
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: payload
       });
 
       if (response.ok) {
         toast.success(isEdit ? 'Evento atualizado com sucesso!' : 'Evento criado com sucesso!');
-        navigate('/eventos');
+        // Se houver uma rota específica de eventos, pode ser alterada. Voltar para tela anterior por enquanto:
+        navigate(-1);
       } else {
-        toast.error(isEdit ? 'Erro ao atualizar evento.' : 'Erro ao criar evento.');
+        const errorData = await response.json();
+        toast.error(errorData.error || (isEdit ? 'Erro ao atualizar evento.' : 'Erro ao criar evento.'));
       }
     } catch (err) {
       console.error(err);
@@ -112,6 +141,46 @@ export default function CriarEvento() {
 
       <div className="glass-panel form-panel animate-fade-in" style={{ animationDelay: '0.2s', maxWidth: '800px', margin: '0 auto' }}>
         <form onSubmit={handleSubmit} className="event-form">
+          <div className="form-group">
+            <label>Cartaz Promocional do Evento</label>
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+              <div 
+                style={{ 
+                  width: '120px', 
+                  height: '160px', 
+                  background: 'rgba(0,0,0,0.3)', 
+                  border: '1px dashed var(--color-primary)', 
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden'
+                }}
+              >
+                {previewImagem ? (
+                  <img src={previewImagem} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <ImageIcon size={32} className="text-muted" />
+                )}
+              </div>
+              <div>
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                  id="cartaz-upload"
+                />
+                <label htmlFor="cartaz-upload" className="btn btn-secondary btn-sm" style={{ cursor: 'pointer', display: 'inline-block' }}>
+                  Escolher Imagem
+                </label>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '10px' }}>
+                  Recomendado: Imagens em formato retrato (vertical) para cartazes. Tamanho máximo: 5MB.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="form-group">
             <label>Título do Evento</label>
             <input 

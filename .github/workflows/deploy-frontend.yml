@@ -1,0 +1,43 @@
+name: Deploy Frontend para Hostinger
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    # Isso faz o deploy rodar apenas quando você modificar arquivos na pasta do frontend
+    paths:
+      - 'frontend_new/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🚚 Checkout do código
+      uses: actions/checkout@v4
+
+    - name: ⚙️ Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: 📦 Instalar dependências
+      run: npm install
+      working-directory: ./frontend_new
+
+    - name: 🛠️ Build do projeto
+      run: npm run build
+      working-directory: ./frontend_new
+
+    - name: 🚀 Deploy para o Hostinger via FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        # Pega apenas os arquivos prontos do build
+        local-dir: ./frontend_new/dist/
+        # Diretório no Hostinger onde os arquivos serão salvos. 
+        # Dependendo da conta FTP, pode ser necessário alterar para /public_html/rnscbrazil/
+        server-dir: /

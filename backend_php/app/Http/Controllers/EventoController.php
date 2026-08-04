@@ -71,6 +71,13 @@ class EventoController extends Controller
             
             $data['finalizado'] = 0;
 
+            if ($request->hasFile('cartaz')) {
+                $file = $request->file('cartaz');
+                $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '', $file->getClientOriginalName());
+                $file->move(public_path('cartazes'), $filename);
+                $data['imagem_exibicao'] = 'cartazes/' . $filename;
+            }
+
             $evento = Evento::create($data);
             return response()->json($evento, 201);
         } catch (\Exception $e) {
@@ -99,6 +106,13 @@ class EventoController extends Controller
             }
             if (!empty($data['data_final'])) {
                 $data['data_final'] = date('Y-m-d H:i:s', strtotime($data['data_final']));
+            }
+
+            if ($request->hasFile('cartaz')) {
+                $file = $request->file('cartaz');
+                $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '', $file->getClientOriginalName());
+                $file->move(public_path('cartazes'), $filename);
+                $data['imagem_exibicao'] = 'cartazes/' . $filename;
             }
 
             $evento = Evento::findOrFail($id);
