@@ -136,15 +136,14 @@ export default function Dashboard() {
                       >
                         Gerenciar Provas
                       </button>
-                      {!e.finalizado && (
-                        <button 
-                          onClick={() => navigate(`/inscricoes/nova?evento=${e.id_evento}`)} 
-                          className="btn btn-primary" 
-                          style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem', whiteSpace: 'nowrap' }}
-                        >
-                          Inscrever
-                        </button>
-                      )}
+                      <button 
+                        onClick={() => !e.finalizado && navigate(`/inscricoes/nova?evento=${e.id_evento}`)} 
+                        className={`btn btn-primary ${e.finalizado ? 'disabled' : ''}`}
+                        disabled={e.finalizado}
+                        style={{ fontSize: '0.85rem', padding: '0.4rem 0.8rem', whiteSpace: 'nowrap', opacity: e.finalizado ? 0.5 : 1, cursor: e.finalizado ? 'not-allowed' : 'pointer' }}
+                      >
+                        Inscrever
+                      </button>
                     </td>
                   </tr>
                 ))}
