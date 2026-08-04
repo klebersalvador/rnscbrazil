@@ -148,7 +148,7 @@ export default function LandingPage() {
                   style={{
                     backgroundImage: evento.imagem_exibicao && evento.imagem_exibicao !== 'default.jpg' 
                       ? `url(${import.meta.env.VITE_API_URL || ''}/${evento.imagem_exibicao})` 
-                      : `linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(26, 29, 36, 1) 100%), url('/hero-bg.png')`
+                      : `url('/default-event.png')`
                   }}
                 >
                   <div className="evento-date-badge">
