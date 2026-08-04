@@ -220,32 +220,32 @@ export default function Registro() {
         </div>
 
         {/* Tabs Navegação */}
-        <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.05)', marginBottom: '20px', overflowX: 'auto' }}>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', overflowX: 'auto', paddingBottom: '10px' }}>
           <button 
             type="button"
             onClick={() => setActiveTab('pessoais')}
-            style={{ flex: 1, padding: '1rem', background: activeTab === 'pessoais' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'pessoais' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'pessoais' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'pessoais' ? 'var(--color-gold)' : 'rgba(255,255,255,0.05)', border: activeTab === 'pessoais' ? 'none' : '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: activeTab === 'pessoais' ? '#1a1d24' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap', transition: 'all 0.3s ease', boxShadow: activeTab === 'pessoais' ? '0 4px 15px rgba(212, 175, 55, 0.4)' : 'none' }}
           >
             <User size={18} /> Pessoais
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab('endereco')}
-            style={{ flex: 1, padding: '1rem', background: activeTab === 'endereco' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'endereco' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'endereco' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'endereco' ? 'var(--color-gold)' : 'rgba(255,255,255,0.05)', border: activeTab === 'endereco' ? 'none' : '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: activeTab === 'endereco' ? '#1a1d24' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap', transition: 'all 0.3s ease', boxShadow: activeTab === 'endereco' ? '0 4px 15px rgba(212, 175, 55, 0.4)' : 'none' }}
           >
             <MapPin size={18} /> Endereço
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab('acesso')}
-            style={{ flex: 1, padding: '1rem', background: activeTab === 'acesso' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'acesso' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'acesso' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'acesso' ? 'var(--color-gold)' : 'rgba(255,255,255,0.05)', border: activeTab === 'acesso' ? 'none' : '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: activeTab === 'acesso' ? '#1a1d24' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap', transition: 'all 0.3s ease', boxShadow: activeTab === 'acesso' ? '0 4px 15px rgba(212, 175, 55, 0.4)' : 'none' }}
           >
             <Key size={18} /> Acesso
           </button>
           <button 
             type="button"
             onClick={() => setActiveTab('nivelamento')}
-            style={{ flex: 1, padding: '1rem', background: activeTab === 'nivelamento' ? 'rgba(212, 175, 55, 0.1)' : 'transparent', border: 'none', borderBottom: activeTab === 'nivelamento' ? '2px solid var(--color-gold)' : '2px solid transparent', color: activeTab === 'nivelamento' ? 'var(--color-gold)' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}
+            style={{ flex: 1, padding: '1rem', background: activeTab === 'nivelamento' ? 'var(--color-gold)' : 'rgba(255,255,255,0.05)', border: activeTab === 'nivelamento' ? 'none' : '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: activeTab === 'nivelamento' ? '#1a1d24' : '#a0aab2', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontWeight: 'bold', whiteSpace: 'nowrap', transition: 'all 0.3s ease', boxShadow: activeTab === 'nivelamento' ? '0 4px 15px rgba(212, 175, 55, 0.4)' : 'none' }}
           >
             <Award size={18} /> Nivelamento
           </button>
@@ -305,8 +305,8 @@ export default function Registro() {
               </div>
             </div>
             
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
-              <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-secondary" style={{ width: '100%' }}>Avançar para Endereço</button>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+              <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }}>Avançar <ArrowLeft size={16} style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} /></button>
             </div>
           </div>
 
@@ -356,9 +356,9 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', marginTop: '1rem' }}>
-              <button type="button" onClick={() => setActiveTab('pessoais')} className="btn btn-secondary" style={{ flex: 1 }}>Voltar</button>
-              <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-secondary" style={{ flex: 1 }}>Avançar para Acesso</button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+              <button type="button" onClick={() => setActiveTab('pessoais')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
+              <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }}>Avançar <ArrowLeft size={16} style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} /></button>
             </div>
           </div>
 
@@ -382,9 +382,9 @@ export default function Registro() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', marginTop: '1rem' }}>
-              <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-secondary" style={{ flex: 1 }}>Voltar</button>
-              <button type="button" onClick={() => setActiveTab('nivelamento')} className="btn btn-secondary" style={{ flex: 1 }}>Avançar para Nivelamento</button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.5rem' }}>
+              <button type="button" onClick={() => setActiveTab('endereco')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
+              <button type="button" onClick={() => setActiveTab('nivelamento')} className="btn btn-primary" style={{ padding: '0.6rem 1.5rem' }}>Avançar <ArrowLeft size={16} style={{ transform: 'rotate(180deg)', marginLeft: '8px' }} /></button>
             </div>
           </div>
 
@@ -402,10 +402,10 @@ export default function Registro() {
               <strong>Categoria Calculada:</strong> {formData.categoria_competidor || 'Não definida'}
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', marginTop: '2rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-              <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-secondary" style={{ flex: 1 }}>Voltar</button>
-              <button type="submit" className="btn btn-primary" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }} disabled={loading}>
-                <Save size={20} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+              <button type="button" onClick={() => setActiveTab('acesso')} className="btn btn-secondary" style={{ padding: '0.6rem 1.5rem' }}><ArrowLeft size={16} style={{ marginRight: '8px' }} /> Voltar</button>
+              <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '0.6rem 1.5rem', boxShadow: '0 4px 15px rgba(212, 175, 55, 0.4)' }} disabled={loading}>
+                <Save size={18} />
                 {loading ? 'Salvando...' : 'Concluir Cadastro'}
               </button>
             </div>
