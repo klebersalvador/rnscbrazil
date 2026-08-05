@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
-    // Rota: POST /usuarios/login
     public function login(Request $request)
     {
         $request->validate([
@@ -16,8 +15,19 @@ class UsuarioController extends Controller
             'senha' => 'required'
         ]);
 
-        $usuario = Usuario::where('login', $request->login)
-                          ->where('ativo', 1)
+        $login = $request->login;
+        $cpfLimpo = preg_replace('/[^0-9]/', '', $login);
+
+        $usuario = Usuario::where('ativo', 1)
+                          ->where(function ($query) use ($login, $cpfLimpo) {
+                              $query->where('login', $login)
+                                    ->orWhere('email', $login)
+                                    ->orWhere('cpf', $login);
+                                    
+                              if (!empty($cpfLimpo)) {
+                                  $query->orWhere('cpf', $cpfLimpo);
+                              }
+                          })
                           ->first();
 
         // Suporta tanto o MD5 legado do banco antigo quanto o bcrypt padrão do Laravel
@@ -95,6 +105,10 @@ class UsuarioController extends Controller
 
     public function cadastro(Request $request)
     {
+        if (!$request->has('login') || empty($request->login)) {
+            $request->merge(['login' => preg_replace('/[^0-9]/', '', $request->cpf)]);
+        }
+
         $request->validate([
             'nome' => 'required',
             'login' => 'required|unique:usuario,login',

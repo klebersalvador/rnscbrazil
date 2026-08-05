@@ -135,7 +135,7 @@ export default function Registro() {
     });
 
     // Aba Acesso
-    const reqAcesso = ['login', 'senha', 'confirmarSenha'];
+    const reqAcesso = ['senha', 'confirmarSenha'];
     reqAcesso.forEach(field => {
       if (!formData[field]) newErrors[field] = true;
     });
@@ -143,6 +143,12 @@ export default function Registro() {
     if (formData.senha && formData.confirmarSenha && formData.senha !== formData.confirmarSenha) {
       newErrors.confirmarSenha = true;
       toast.error('As senhas não coincidem!');
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (formData.senha && !passwordRegex.test(formData.senha)) {
+      newErrors.senha = true;
+      toast.error('A senha deve ter no mínimo 8 caracteres, com letras maiúsculas, minúsculas, números e símbolos.');
     }
 
     setErrors(newErrors);
@@ -365,21 +371,27 @@ export default function Registro() {
 
           {/* TAB 3: ACESSO AO SISTEMA */}
           <div style={{ display: activeTab === 'acesso' ? 'flex' : 'none', flexDirection: 'column', flex: 1 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginBottom: '0.5rem' }}>
-              <div className="form-group">
-                <label>Login de Acesso *</label>
-                <input type="text" name="login" value={formData.login} onChange={handleChange} className={`input-field ${errors.login ? 'input-error' : ''}`} />
-              </div>
-            </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
-              <div className="form-group">
-                <label>Senha *</label>
-                <input type="password" name="senha" value={formData.senha} onChange={handleChange} className={`input-field ${errors.senha ? 'input-error' : ''}`} />
-              </div>
-              <div className="form-group">
-                <label>Confirmar Senha *</label>
-                <input type="password" name="confirmarSenha" value={formData.confirmarSenha} onChange={handleChange} className={`input-field ${errors.confirmarSenha ? 'input-error' : ''}`} />
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '0.5rem' }}>
+                <div className="form-group">
+                  <label>Senha *</label>
+                  <input type="password" name="senha" value={formData.senha} onChange={handleChange} className={`input-field ${errors.senha ? 'input-error' : ''}`} />
+                  {formData.senha && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(formData.senha) && (
+                    <small style={{ color: '#ff4444', marginTop: '4px', display: 'block', fontSize: '12px' }}>
+                      A senha deve ter no mínimo 8 caracteres, com letras maiúsculas, minúsculas, números e símbolos.
+                    </small>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label>Confirmar Senha *</label>
+                  <input type="password" name="confirmarSenha" value={formData.confirmarSenha} onChange={handleChange} className={`input-field ${errors.confirmarSenha ? 'input-error' : ''}`} />
+                  {formData.confirmarSenha && formData.senha !== formData.confirmarSenha && (
+                    <small style={{ color: '#ff4444', marginTop: '4px', display: 'block', fontSize: '12px' }}>
+                      As senhas não coincidem.
+                    </small>
+                  )}
+                </div>
               </div>
             </div>
 

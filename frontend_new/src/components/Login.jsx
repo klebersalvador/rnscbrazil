@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import './Login.css'; // We will create this for specific login styles
 
 export default function Login({ onLoginSuccess }) {
+  const navigate = useNavigate();
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
@@ -51,11 +53,11 @@ export default function Login({ onLoginSuccess }) {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Login do Usuário</label>
+            <label>CPF ou E-mail</label>
             <input 
               type="text" 
               className="input-field" 
-              placeholder="Digite seu login..." 
+              placeholder="Digite seu CPF ou e-mail..." 
               value={login}
               onChange={(e) => setLogin(e.target.value)}
               required
@@ -74,9 +76,14 @@ export default function Login({ onLoginSuccess }) {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Autenticando...' : 'Entrar no Sistema'}
-          </button>
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+            <button type="button" onClick={() => navigate('/')} className="btn btn-secondary" style={{ flex: 1 }}>
+              Cancelar
+            </button>
+            <button type="submit" className="btn btn-primary" style={{ flex: 1 }} disabled={loading}>
+              {loading ? 'Autenticando...' : 'Entrar'}
+            </button>
+          </div>
         </form>
       </div>
     </div>
